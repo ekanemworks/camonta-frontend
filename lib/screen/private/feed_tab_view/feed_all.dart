@@ -1,3 +1,4 @@
+import 'package:camonta/screen/private/layout_ordering_process/product_description.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 
@@ -96,7 +97,14 @@ class _FeedAllState extends State<FeedAll> {
 
   Widget listItem2(_value) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ProductDescription(),
+          ),
+        );
+      },
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),

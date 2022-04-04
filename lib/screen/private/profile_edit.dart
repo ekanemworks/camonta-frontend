@@ -1,14 +1,11 @@
-import 'package:camonta/screen/private/dashboard.dart';
-import 'package:camonta/screen/private/home.dart';
 import 'package:flutter/material.dart';
 
-class SetupAccount extends StatefulWidget {
+class ProfileEdit extends StatefulWidget {
   @override
-  _SetupAccountState createState() => _SetupAccountState();
+  _ProfileEditState createState() => _ProfileEditState();
 }
 
-class _SetupAccountState extends State<SetupAccount> {
-  late String _edit_profilephoto;
+class _ProfileEditState extends State<ProfileEdit> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -18,6 +15,27 @@ class _SetupAccountState extends State<SetupAccount> {
         foregroundColor: Colors.black,
         backgroundColor: Colors.white, // 1
         elevation: 0,
+        title: Text(
+          'Edit Item',
+          style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
+        ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: OutlinedButton(
+              onPressed: () {
+                // openConfirmationDialog(context);
+              },
+              child: Text(
+                'Save',
+                style: TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xffC50303)),
+              ),
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -132,36 +150,6 @@ class _SetupAccountState extends State<SetupAccount> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Color(0xffC50303),
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                        child: SizedBox(
-                          width: 190, // <-- Your width
-                          height: 50,
-                          child: ElevatedButton(
-                            child: const Text(
-                              'Create Account',
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Home(),
-                                ),
-                              );
-                            },
-                            style: ElevatedButton.styleFrom(
-                                primary: Colors.transparent,
-                                shadowColor: Colors.transparent),
-                          ),
-                        ),
-                      ),
 
                       // Text(mapdata.toString()),
                     ],

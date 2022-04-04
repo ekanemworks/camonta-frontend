@@ -192,10 +192,12 @@ class _OnboardingState extends State<Onboarding> {
                                             fontSize: 18, color: Colors.white),
                                       ),
                                       onPressed: () {
-                                        _controller.animateToPage(2,
-                                            duration:
-                                                Duration(milliseconds: 300),
-                                            curve: Curves.easeIn);
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => GetStarted(),
+                                          ),
+                                        );
                                       },
                                       style: ElevatedButton.styleFrom(
                                         primary: Colors.transparent,

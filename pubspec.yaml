@@ -64,6 +64,10 @@ flutter:
     - assets/logo/mainlogo.png
     - assets/logo/mainlogo2.png
     - assets/default_dp.png
+    - assets/addproduct.png
+    - assets/placeorder.png
+    - assets/paymentchannels/paystack.jpg
+    - assets/paymentchannels/quickteller.jpg
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

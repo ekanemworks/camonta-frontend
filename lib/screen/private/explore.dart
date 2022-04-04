@@ -33,6 +33,17 @@ class _ExploreState extends State<Explore> {
     '',
     '',
   ];
+
+  _onUpdateScroll(ScrollMetrics metrics) {
+    // print(metrics.extentAfter > 245);
+    // print();
+    if (metrics.extentAfter > 245) {
+      print('top');
+    } else {
+      print('body');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,16 +100,28 @@ class _ExploreState extends State<Explore> {
             children: [
               // Chefs
               Container(
-                height: 200,
+                alignment: Alignment.centerLeft,
+                margin: EdgeInsets.only(left: 10, top: 20),
+                child: Text(
+                  'Chef',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+              Container(
+                height: 180,
                 color: Colors.green,
                 child: ListView(
                   scrollDirection: Axis.horizontal,
                   children: _chefs.map((e) {
                     return Container(
-                      height: 100,
+                      // height: 100,
                       width: 100,
-                      color: Colors.grey,
-                      margin: EdgeInsets.symmetric(horizontal: 10),
+                      // color: Colors.grey,
+                      margin: EdgeInsets.only(left: 7, top: 10, bottom: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.grey,
+                      ),
                     );
                   }).toList(),
                 ),
@@ -106,51 +129,49 @@ class _ExploreState extends State<Explore> {
 
               // popular
               Container(
+                alignment: Alignment.centerLeft,
+                margin: EdgeInsets.only(left: 10, top: 20, bottom: 5),
+                child: Text(
+                  'Popular',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+              Container(
                 // color: Colors.green,
                 width: MediaQuery.of(context).size.width - 10,
                 height: MediaQuery.of(context).size.height - 120,
                 // height: 1000,
-                child: GridView(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
-                    mainAxisSpacing: 1,
-                    crossAxisSpacing: 1,
-                  ),
-                  children: List.generate(
-                    20,
-                    (index) => Container(
-                      color: Colors.white,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Icon(
-                            Icons.touch_app,
-                            size: 30,
-                            color: Colors.yellow[900],
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "Touch",
-                            style: TextStyle(fontSize: 20),
-                          )
-                        ],
+                child: NotificationListener<ScrollNotification>(
+                  onNotification: (scrollNotification) {
+                    if (scrollNotification is ScrollStartNotification) {
+                      // _onStartScroll(scrollNotification.metrics);
+                    } else if (scrollNotification is ScrollUpdateNotification) {
+                      _onUpdateScroll(scrollNotification.metrics);
+                      // print('scrolling');
+                    } else if (scrollNotification is ScrollEndNotification) {
+                      // _onEndScroll(scrollNotification.metrics);
+                    }
+                    return true;
+                  },
+                  child: GridView(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      mainAxisSpacing: 1,
+                      crossAxisSpacing: 1,
+                    ),
+                    children: List.generate(
+                      20,
+                      (index) => Container(
+                        color: Colors.white,
+                        child: Icon(
+                          Icons.touch_app,
+                          size: 30,
+                          color: Colors.yellow[900],
+                        ),
                       ),
                     ),
                   ),
                 ),
-
-                // GridView(
-                //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                //       crossAxisCount: 3,
-                //       crossAxisSpacing: 0,
-                //       mainAxisSpacing: 0,
-                //       childAspectRatio: 1 / 1),
-                //   children: _baybn_members_general.map((e) {
-                //     return listItem2(e);
-                //   }).toList(),
-                // ),
               ),
             ],
           ),
