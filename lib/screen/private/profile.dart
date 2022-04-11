@@ -1,6 +1,8 @@
 import 'package:camonta/screen/private/layout_add_product/newproduct_info.dart';
 import 'package:camonta/screen/private/layout_open_item/profile_me_open_item.dart';
+import 'package:camonta/screen/private/layout_promotion_process/promotion_type.dart';
 import 'package:camonta/screen/private/profile_edit.dart';
+import 'package:camonta/screen/private/profile_promotions.dart';
 import 'package:camonta/screen/private/profile_settings.dart';
 import 'package:flutter/material.dart';
 
@@ -230,17 +232,27 @@ class _ProfileState extends State<Profile> {
                           ),
                         ],
                       ),
-                      Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(3.0),
-                            child: Text(
-                              'Promotions',
-                              style:
-                                  TextStyle(fontSize: 13, color: Colors.grey),
+                      InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ProfilePromotions(),
                             ),
-                          ),
-                        ],
+                          );
+                        },
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.all(3.0),
+                              child: Text(
+                                'Promotions',
+                                style:
+                                    TextStyle(fontSize: 13, color: Colors.grey),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       Column(
                         children: [
@@ -356,12 +368,12 @@ class _ProfileState extends State<Profile> {
                   ],
                 ),
                 onPressed: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder: (context) => CheckoutDetails(),
-                  //   ),
-                  // );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => PromotionType(),
+                    ),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Colors.transparent,

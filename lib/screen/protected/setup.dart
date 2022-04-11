@@ -1,5 +1,6 @@
 import 'package:camonta/screen/private/dashboard.dart';
 import 'package:camonta/screen/private/home.dart';
+import 'package:camonta/screen/private/logistics/logistics_dashboard.dart';
 import 'package:flutter/material.dart';
 
 class SetupAccount extends StatefulWidget {
@@ -149,12 +150,23 @@ class _SetupAccountState extends State<SetupAccount> {
                                   fontWeight: FontWeight.bold),
                             ),
                             onPressed: () {
+                              // FOR NORMAL ACCOUNT
+                              // FOR NORMAL ACCOUNT
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => Home(),
                                 ),
                               );
+
+                              // FOR LOGISTICS ACCOUNT
+                              // FOR LOGISTICS ACCOUNT
+                              // Navigator.push(
+                              //   context,
+                              //   MaterialPageRoute(
+                              //     builder: (context) => LogisticDashboard(),
+                              //   ),
+                              // );
                             },
                             style: ElevatedButton.styleFrom(
                                 primary: Colors.transparent,

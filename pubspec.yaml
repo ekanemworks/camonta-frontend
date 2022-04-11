@@ -68,6 +68,7 @@ flutter:
     - assets/placeorder.png
     - assets/paymentchannels/paystack.jpg
     - assets/paymentchannels/quickteller.jpg
+    - assets/processing/hourglassyellow.gif
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

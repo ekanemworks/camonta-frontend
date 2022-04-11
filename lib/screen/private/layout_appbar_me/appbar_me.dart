@@ -1,3 +1,4 @@
+import 'package:camonta/screen/private/layout_notification/notification.dart';
 import 'package:camonta/screen/private/profile.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,14 @@ class _AppbarMeState extends State<AppbarMe> {
     return Container(
       child: Row(children: [
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => AppNotification(),
+              ),
+            );
+          },
           icon: Icon(Icons.favorite),
         ),
         InkWell(
