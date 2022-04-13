@@ -65,6 +65,19 @@ class _StartScreenState extends State<StartScreen> {
           height: double.maxFinite,
           width: double.maxFinite,
           color: Color(0xffC50303),
+          child: Center(
+            child: Container(
+              height: 120,
+              width: 120,
+              margin: EdgeInsets.only(bottom: 124),
+              decoration: BoxDecoration(
+                // in container if you want to show a background image you need box decoration
+                image: DecorationImage(
+                    image: AssetImage('assets/logo/mainlogo2.png'),
+                    fit: BoxFit.cover),
+              ),
+            ),
+          ),
         ),
       ),
     );

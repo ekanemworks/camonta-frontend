@@ -8,7 +8,7 @@ class SignUp extends StatefulWidget {
 
 class _SignUpState extends State<SignUp> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  String myInitialHolder = 'Account Type';
+  String accounttypeDropDownHolder = 'Account Type';
   late String _emailAddress;
 
   final List myItems = [
@@ -83,7 +83,7 @@ class _SignUpState extends State<SignUp> {
                                   if (!RegExp(
                                           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                                       .hasMatch(value)) {
-                                    return 'Please enter a valid phone number';
+                                    return 'Please enter a valid email address';
                                   }
                                 },
                                 onSaved: (value) {
@@ -102,11 +102,11 @@ class _SignUpState extends State<SignUp> {
                               child: DropdownButtonHideUnderline(
                                 child: DropdownButton(
                                   icon: Icon(Icons.arrow_circle_down_outlined),
-                                  value: myInitialHolder,
+                                  value: accounttypeDropDownHolder,
                                   isExpanded: true,
                                   onChanged: (dynamic value) {
                                     setState(() {
-                                      myInitialHolder = value!;
+                                      accounttypeDropDownHolder = value!;
                                     });
                                   },
                                   items: myItems.map((items) {
@@ -134,12 +134,31 @@ class _SignUpState extends State<SignUp> {
                                         fontSize: 18, color: Colors.white),
                                   ),
                                   onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => SetupAccount(),
-                                      ),
-                                    );
+                                    if (!_formKey.currentState!.validate()) {
+                                      return;
+                                    }
+                                    _formKey.currentState!.save();
+
+                                    if (accounttypeDropDownHolder == '' ||
+                                        accounttypeDropDownHolder ==
+                                            'Account Type') {
+                                      _showToast(context,
+                                          "Choose a valid account type");
+                                    } else {
+                                      var mapdata = {
+                                        'email': _emailAddress,
+                                        'accounttype':
+                                            accounttypeDropDownHolder,
+                                      };
+
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => SetupAccount(
+                                              signupData1: mapdata),
+                                        ),
+                                      );
+                                    }
                                   },
                                   style: ElevatedButton.styleFrom(
                                       primary: Colors.transparent,
@@ -161,5 +180,17 @@ class _SignUpState extends State<SignUp> {
         ),
       ),
     );
+  }
+
+  void _showToast(BuildContext context, message) {
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        content: Text(message),
+        action: SnackBarAction(
+            label: 'Close', onPressed: scaffold.hideCurrentSnackBar),
+      ),
+    );
+    // print(context);
   }
 }

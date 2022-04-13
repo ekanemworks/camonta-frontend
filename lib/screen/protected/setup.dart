@@ -4,13 +4,30 @@ import 'package:camonta/screen/private/logistics/logistics_dashboard.dart';
 import 'package:flutter/material.dart';
 
 class SetupAccount extends StatefulWidget {
+  Map signupData1;
+  SetupAccount({Key? key, required this.signupData1}) : super(key: key);
+
   @override
   _SetupAccountState createState() => _SetupAccountState();
 }
 
 class _SetupAccountState extends State<SetupAccount> {
   late String _edit_profilephoto;
+  late String _profileName;
+  late String _userName;
+  late String _bio;
+  late String _password;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  Map _mapdata = {};
+
+  @override
+  void initState() {
+    setState(() {
+      _mapdata = widget.signupData1;
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +39,8 @@ class _SetupAccountState extends State<SetupAccount> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          height: 600,
+          height: 650,
+          // color: Colors.red,
           width: double.maxFinite - 100,
           margin: const EdgeInsets.only(left: 40, right: 40),
           child: Column(
@@ -62,7 +80,7 @@ class _SetupAccountState extends State<SetupAccount> {
                 // color: Colors.deepPurple,
                 // width: 100,
                 // margin: const EdgeInsets.only(left: 40, right: 40),
-                height: 400,
+                height: 450,
                 child: Form(
                   key: _formKey,
                   child: Column(
@@ -72,15 +90,15 @@ class _SetupAccountState extends State<SetupAccount> {
                         padding: EdgeInsets.only(top: 10),
                         child: TextFormField(
                           // initialValue: _edit_fullname,
-                          decoration:
-                              const InputDecoration(labelText: 'Profile Name'),
+                          decoration: const InputDecoration(
+                              labelText: 'Profile Name (full name)'),
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Profile name cannot be empty';
                             }
                           },
                           onSaved: (value) {
-                            // _edit_fullname = value!;
+                            _profileName = value!;
                           },
                         ),
                       ),
@@ -96,7 +114,7 @@ class _SetupAccountState extends State<SetupAccount> {
                             }
                           },
                           onSaved: (value) {
-                            // _edit_username = value!;
+                            _userName = value!;
                           },
                         ),
                       ),
@@ -112,7 +130,7 @@ class _SetupAccountState extends State<SetupAccount> {
                           decoration: const InputDecoration(
                               labelText: 'Bio (limit 100 characters)'),
                           onSaved: (value) {
-                            // _edit_bio = value!;
+                            _bio = value!;
                           },
                         ),
                       ),
@@ -128,7 +146,7 @@ class _SetupAccountState extends State<SetupAccount> {
                             }
                           },
                           onSaved: (value) {
-                            // _edit_username = value!;
+                            _password = value!;
                           },
                         ),
                       ),
@@ -142,14 +160,35 @@ class _SetupAccountState extends State<SetupAccount> {
                           width: 190, // <-- Your width
                           height: 50,
                           child: ElevatedButton(
-                            child: const Text(
-                              'Create Account',
-                              style: TextStyle(
-                                  fontSize: 18,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  'Sign Up',
+                                  style: TextStyle(
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                SizedBox(width: 10),
+                                Icon(Icons.celebration)
+                              ],
                             ),
                             onPressed: () {
+                              if (!_formKey.currentState!.validate()) {
+                                return;
+                              }
+                              _formKey.currentState!.save();
+
+                              //  var signupdata = {
+                              //                     'yearofbirth': _mapdata['yearofbirth'],
+                              //                     'country': _mapdata['country'],
+                              //                     'university': _mapdata['university'],
+                              //                     'fullname': _reg_fullname,
+                              //                     'email': _reg_email,
+                              //                     'gender': myInitialGender,
+                              //                     'password': _reg_password,
+                              //                   };
                               // FOR NORMAL ACCOUNT
                               // FOR NORMAL ACCOUNT
                               Navigator.push(

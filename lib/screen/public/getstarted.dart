@@ -43,19 +43,19 @@ class _GetStartedState extends State<GetStarted> {
                   child: Container(
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [Color(0xffCD0D0D), Color(0xff730B0B)],
+                        colors: [Color(0xffC50303), Color(0xffC50303)],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                       ),
                       borderRadius: BorderRadius.circular(23.0),
-                      border: Border.all(color: Color(0xff730B0B)),
+                      border: Border.all(color: Color(0xffC50303)),
                     ),
                     child: SizedBox(
                       width: double.maxFinite, // <-- Your width
                       height: 55,
                       child: ElevatedButton(
                         child: const Text(
-                          'Get Started',
+                          'Sign Up',
                           style: TextStyle(fontSize: 18, color: Colors.white),
                         ),
                         onPressed: () {
@@ -92,7 +92,7 @@ class _GetStartedState extends State<GetStarted> {
                       height: 55,
                       child: ElevatedButton(
                         child: const Text(
-                          'Sign In',
+                          'Log In',
                           style: TextStyle(fontSize: 18, color: Colors.black),
                         ),
                         onPressed: () {

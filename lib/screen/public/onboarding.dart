@@ -235,39 +235,6 @@ class _OnboardingState extends State<Onboarding> {
                                     ),
                                   ),
                                 ),
-                                // Container(
-                                //   height: 50,
-                                //   width: 100,
-                                //   decoration: BoxDecoration(
-                                //     color: Colors.white,
-                                //     borderRadius: BorderRadius.circular(23.0),
-                                //     border: Border.all(
-                                //       color: Color(0xff344A61),
-                                //     ),
-                                //   ),
-                                //   child: SizedBox(
-                                //     width: double.maxFinite, // <-- Your width
-                                //     height: 55,
-                                //     child: ElevatedButton(
-                                //       child: const Text(
-                                //         'Next',
-                                //         style: TextStyle(
-                                //             fontSize: 18, color: Colors.black),
-                                //       ),
-                                //       onPressed: () {
-                                //         _controller.animateToPage(
-                                //             _currentPage + 1,
-                                //             duration:
-                                //                 Duration(milliseconds: 300),
-                                //             curve: Curves.easeIn);
-                                //       },
-                                //       style: ElevatedButton.styleFrom(
-                                //         primary: Colors.transparent,
-                                //         shadowColor: Colors.transparent,
-                                //       ),
-                                //     ),
-                                //   ),
-                                // )
                               ],
                             ),
                           ),
