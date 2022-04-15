@@ -1,3 +1,4 @@
+import 'package:camonta/services/http_service.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
@@ -6,8 +7,10 @@ class SignIn extends StatefulWidget {
 }
 
 class _SignInState extends State<SignIn> {
+  final HttpService httpService = HttpService();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  late String _emailAddress;
+  late String _profileEmail;
+  late String _password;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +45,7 @@ class _SignInState extends State<SignIn> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Sign In',
+                        'Log In',
                         style: TextStyle(
                             fontSize: 25, fontWeight: FontWeight.bold),
                       ),
@@ -67,17 +70,17 @@ class _SignInState extends State<SignIn> {
                                 ),
                                 validator: (value) {
                                   if (value!.isEmpty) {
-                                    return 'Enter a valid Email';
+                                    return 'Enter an Email';
                                   }
 
                                   if (!RegExp(
                                           r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                                       .hasMatch(value)) {
-                                    return 'Please enter a valid phone number';
+                                    return 'Please enter a valid Email';
                                   }
                                 },
                                 onSaved: (value) {
-                                  _emailAddress = value!;
+                                  _profileEmail = value!;
                                 },
                               ),
                             ),
@@ -99,15 +102,9 @@ class _SignInState extends State<SignIn> {
                                   if (value!.isEmpty) {
                                     return 'Enter a password';
                                   }
-
-                                  if (!RegExp(
-                                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                      .hasMatch(value)) {
-                                    return 'Please enter a valid phone number';
-                                  }
                                 },
                                 onSaved: (value) {
-                                  _emailAddress = value!;
+                                  _password = value!;
                                 },
                               ),
                             ),
@@ -123,11 +120,40 @@ class _SignInState extends State<SignIn> {
                                 height: 50,
                                 child: ElevatedButton(
                                   child: const Text(
-                                    'Sign In',
+                                    'Log In',
                                     style: TextStyle(
                                         fontSize: 18, color: Colors.white),
                                   ),
-                                  onPressed: () {},
+                                  onPressed: () {
+                                    if (!_formKey.currentState!.validate()) {
+                                      return;
+                                    }
+                                    _formKey.currentState!.save();
+
+                                    var loginValues = {
+                                      'profileEmail': _profileEmail,
+                                      'password': _password,
+                                    };
+
+                                    print(loginValues);
+
+                                    httpService
+                                        .loginAPIfunction(loginValues)
+                                        .then((value) async => {
+                                              print('ekanem')
+                                              // if (_password == '')
+                                              //   {
+                                              //     // FOR NORMAL ACCOUNT
+                                              //     // FOR NORMAL ACCOUNT
+                                              //     Navigator.push(
+                                              //       context,
+                                              //       MaterialPageRoute(
+                                              //         builder: (context) => Home(),
+                                              //       ),
+                                              //     )
+                                              //   }
+                                            });
+                                  },
                                   style: ElevatedButton.styleFrom(
                                       primary: Colors.transparent,
                                       shadowColor: Colors.transparent),

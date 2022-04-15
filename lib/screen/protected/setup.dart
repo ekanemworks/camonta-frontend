@@ -1,6 +1,7 @@
 import 'package:camonta/screen/private/dashboard.dart';
 import 'package:camonta/screen/private/home.dart';
 import 'package:camonta/screen/private/logistics/logistics_dashboard.dart';
+import 'package:camonta/services/http_service.dart';
 import 'package:flutter/material.dart';
 
 class SetupAccount extends StatefulWidget {
@@ -12,10 +13,13 @@ class SetupAccount extends StatefulWidget {
 }
 
 class _SetupAccountState extends State<SetupAccount> {
+  final HttpService httpService = HttpService();
+
   late String _edit_profilephoto;
   late String _profileName;
-  late String _userName;
-  late String _bio;
+  late String _profileUsername;
+  String _profilePhoto = '';
+  late String _profileBio;
   late String _password;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Map _mapdata = {};
@@ -114,7 +118,7 @@ class _SetupAccountState extends State<SetupAccount> {
                             }
                           },
                           onSaved: (value) {
-                            _userName = value!;
+                            _profileUsername = value!;
                           },
                         ),
                       ),
@@ -130,7 +134,7 @@ class _SetupAccountState extends State<SetupAccount> {
                           decoration: const InputDecoration(
                               labelText: 'Bio (limit 100 characters)'),
                           onSaved: (value) {
-                            _bio = value!;
+                            _profileBio = value!;
                           },
                         ),
                       ),
@@ -180,23 +184,32 @@ class _SetupAccountState extends State<SetupAccount> {
                               }
                               _formKey.currentState!.save();
 
-                              //  var signupdata = {
-                              //                     'yearofbirth': _mapdata['yearofbirth'],
-                              //                     'country': _mapdata['country'],
-                              //                     'university': _mapdata['university'],
-                              //                     'fullname': _reg_fullname,
-                              //                     'email': _reg_email,
-                              //                     'gender': myInitialGender,
-                              //                     'password': _reg_password,
-                              //                   };
-                              // FOR NORMAL ACCOUNT
-                              // FOR NORMAL ACCOUNT
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => Home(),
-                                ),
-                              );
+                              var signupdata = {
+                                'profileEmail': _mapdata['email'],
+                                'profileType': _mapdata['accounttype'],
+                                'profileName': _profileName,
+                                'profileUsername': _profileUsername,
+                                'profilePhoto': _profilePhoto,
+                                'profileBio': _profileBio,
+                                'password': _password,
+                              };
+
+                              httpService
+                                  .signupAPIfunction(signupdata)
+                                  .then((value) async => {
+                                        print('ekanem')
+                                        // if (_password == '')
+                                        //   {
+                                        //     // FOR NORMAL ACCOUNT
+                                        //     // FOR NORMAL ACCOUNT
+                                        //     Navigator.push(
+                                        //       context,
+                                        //       MaterialPageRoute(
+                                        //         builder: (context) => Home(),
+                                        //       ),
+                                        //     )
+                                        //   }
+                                      });
 
                               // FOR LOGISTICS ACCOUNT
                               // FOR LOGISTICS ACCOUNT

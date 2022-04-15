@@ -24,19 +24,44 @@ class HttpService {
   // final String serverAPI = "http://192.168.0.126:3000/";
   // final String serverAPI_image = "http://192.168.0.126:3000/";
 
-  // GET COUNTRIES
-  // GET COUNTRIES
-  // GET COUNTRIES
-  Future fetchSignupCriteria() async {
+  // SIGNUP NEW USER
+  // SIGNUP NEW USER
+  // SIGNUP NEW USER
+  Future signupAPIfunction(data) async {
     Response response;
     try {
-      response =
-          await get(Uri.parse(serverAPI + 'api1.0/signup/signupCriteria'));
+      response = await post(
+        Uri.parse(serverAPI + 'api1.0/signup/createAccount'),
+        headers: {"Content-Type": "application/json"},
+        body: json.encode(data),
+      );
 
       if (response.statusCode == 200) {
         return json.decode(response.body);
       } else {
-        return response.statusCode.toString();
+        return {'status': 'error', 'message': 'network / error 500'};
+      }
+    } catch (e) {
+      return {'status': 'error', 'message': 'network error / server error'};
+    }
+  }
+
+  // LOG IN USER
+  // LOG IN USER
+  // LOG IN USER
+  Future loginAPIfunction(data) async {
+    Response response;
+    try {
+      response = await post(
+        Uri.parse(serverAPI + 'api1.0/login/Authenticate'),
+        headers: {"Content-Type": "application/json"},
+        body: json.encode(data),
+      );
+
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        return {'status': 'error', 'message': 'network / error 500'};
       }
     } catch (e) {
       return {'status': 'error', 'message': 'network error / server error'};

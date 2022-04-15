@@ -9,7 +9,7 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String accounttypeDropDownHolder = 'Account Type';
-  late String _emailAddress;
+  late String _profileEmail;
 
   final List myItems = [
     'Account Type',
@@ -87,7 +87,7 @@ class _SignUpState extends State<SignUp> {
                                   }
                                 },
                                 onSaved: (value) {
-                                  _emailAddress = value!;
+                                  _profileEmail = value!;
                                 },
                               ),
                             ),
@@ -146,7 +146,7 @@ class _SignUpState extends State<SignUp> {
                                           "Choose a valid account type");
                                     } else {
                                       var mapdata = {
-                                        'email': _emailAddress,
+                                        'email': _profileEmail,
                                         'accounttype':
                                             accounttypeDropDownHolder,
                                       };
