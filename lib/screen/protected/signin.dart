@@ -1,4 +1,8 @@
+import 'dart:convert';
+
+import 'package:camonta/screen/private/home.dart';
 import 'package:camonta/services/http_service.dart';
+import 'package:camonta/services/session_management.dart';
 import 'package:flutter/material.dart';
 
 class SignIn extends StatefulWidget {
@@ -8,6 +12,8 @@ class SignIn extends StatefulWidget {
 
 class _SignInState extends State<SignIn> {
   final HttpService httpService = HttpService();
+  final SessionManagement sessionMgt = SessionManagement();
+
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late String _profileEmail;
   late String _password;
@@ -140,7 +146,79 @@ class _SignInState extends State<SignIn> {
                                     httpService
                                         .loginAPIfunction(loginValues)
                                         .then((value) async => {
-                                              print('ekanem')
+                                              print('ekanem'),
+
+                                              if (value['status'] == 'ok')
+                                                {
+                                                  // print(value['body']),
+                                                  // use session management class to set session
+                                                  // use session management class to set session
+                                                  sessionMgt.setSession({
+                                                    'id': value['body']['id'],
+                                                    'profileType': value['body']
+                                                        ['profileType'],
+                                                    'profileSession':
+                                                        value['body']
+                                                            ['profileSession'],
+                                                    'profileName': value['body']
+                                                        ['profileName'],
+                                                    'profileUsername':
+                                                        value['body']
+                                                            ['profileUsername'],
+                                                    'profilePhoto':
+                                                        value['body']
+                                                            ['profilePhoto'],
+                                                    'profileBio': value['body']
+                                                        ['profileBio'],
+                                                    'profileEmail':
+                                                        value['body']
+                                                            ['profileEmail'],
+                                                    'profileEmailStatus': value[
+                                                            'body']
+                                                        ['profileEmailStatus'],
+                                                    'password': value['body']
+                                                        ['password'],
+                                                    'registrationDate': value[
+                                                            'body']
+                                                        ['registrationDate'],
+                                                    'notification': json.decode(
+                                                        value['body']
+                                                            ['notification']),
+                                                    'myProductCount':
+                                                        value['body']
+                                                            ['myProductCount'],
+                                                    'myPurchase': json.decode(
+                                                        value['body']
+                                                            ['myPurchase']),
+                                                    'profileLikeForIdList': json
+                                                        .decode(value['body'][
+                                                            'profileLikeForIdList']),
+                                                    'profileLikeByIdList': json
+                                                        .decode(value['body'][
+                                                            'profileLikeByIdList']),
+                                                    'profileServes':
+                                                        value['body']
+                                                            ['profileServes'],
+                                                    'profilePoints':
+                                                        value['body']
+                                                            ['profilePoints'],
+                                                  }),
+
+                                                  // FOR NORMAL ACCOUNT
+                                                  // FOR NORMAL ACCOUNT
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          Home(),
+                                                    ),
+                                                  )
+                                                }
+                                              else
+                                                {
+                                                  _showToast(
+                                                      context, value['message'])
+                                                }
                                               // if (_password == '')
                                               //   {
                                               //     // FOR NORMAL ACCOUNT
@@ -174,5 +252,17 @@ class _SignInState extends State<SignIn> {
         ),
       ),
     );
+  }
+
+  void _showToast(BuildContext context, message) {
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        content: Text(message),
+        action: SnackBarAction(
+            label: 'Close', onPressed: scaffold.hideCurrentSnackBar),
+      ),
+    );
+    print(context);
   }
 }

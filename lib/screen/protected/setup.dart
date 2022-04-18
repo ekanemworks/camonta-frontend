@@ -71,10 +71,15 @@ class _SetupAccountState extends State<SetupAccount> {
                       child: Container(
                         height: 30,
                         width: 30,
-                        child: Icon(Icons.camera_alt,
-                            color: Colors.white, size: 15),
+                        child: Icon(
+                          Icons.camera_alt,
+                          color: Colors.white,
+                          size: 15,
+                        ),
                         decoration: BoxDecoration(
-                            color: Colors.green, shape: BoxShape.circle),
+                          color: Colors.green,
+                          shape: BoxShape.circle,
+                        ),
                       ),
                     )
                   ],

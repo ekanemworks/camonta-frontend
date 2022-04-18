@@ -33,9 +33,9 @@ class _AppbarMeState extends State<AppbarMe> {
             );
           },
           child: Container(
-            width: 60,
+            width: 50,
             height: 120,
-            margin: const EdgeInsets.only(top: 3, bottom: 3, right: 10),
+            margin: const EdgeInsets.only(top: 3, bottom: 3, right: 20),
             // color: Colors.purple,
             // child: Image.asset('assets/default.png'),
 
@@ -52,10 +52,9 @@ class _AppbarMeState extends State<AppbarMe> {
                   bottom: 0.0,
                   right: 5.0,
                   child: Container(
-                    child:
-                        Icon(Icons.more_horiz, color: Colors.white, size: 25),
+                    child: Icon(Icons.grid_3x3, color: Colors.white, size: 18),
                     decoration: BoxDecoration(
-                      color: Colors.black,
+                      color: Colors.green,
                       shape: BoxShape.circle,
                     ),
                   ),

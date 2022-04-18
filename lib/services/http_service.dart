@@ -67,4 +67,26 @@ class HttpService {
       return {'status': 'error', 'message': 'network error / server error'};
     }
   }
+
+  // EDIT PROFILE
+  // EDIT PROFILE
+  // EDIT PROFILE
+  Future editProfileAPIfunction(data) async {
+    Response response;
+    try {
+      response = await post(
+        Uri.parse(serverAPI + 'api1.0/editprofile/saveInformation'),
+        headers: {"Content-Type": "application/json"},
+        body: json.encode(data),
+      );
+
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        return {'status': 'error', 'message': 'network / error 500'};
+      }
+    } catch (e) {
+      return {'status': 'error', 'message': 'network error / server error'};
+    }
+  }
 }

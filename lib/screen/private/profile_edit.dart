@@ -1,12 +1,36 @@
+import 'dart:convert';
+
+import 'package:camonta/services/http_service.dart';
+import 'package:camonta/services/session_management.dart';
 import 'package:flutter/material.dart';
 
 class ProfileEdit extends StatefulWidget {
+  Map data;
+  ProfileEdit({Key? key, required this.data}) : super(key: key);
+
   @override
   _ProfileEditState createState() => _ProfileEditState();
 }
 
 class _ProfileEditState extends State<ProfileEdit> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final SessionManagement sessionMgt = SessionManagement();
+  final HttpService httpService = HttpService();
+
+  late String _profileName;
+  late String _profileUsername;
+  late String _profileBio;
+  late String _profileEmail;
+
+  @override
+  void initState() {
+    _profileName = widget.data['profileName'];
+    _profileUsername = widget.data['profileUsername'];
+    _profileBio = widget.data['profileBio'];
+    _profileEmail = widget.data['profileEmail'];
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +49,23 @@ class _ProfileEditState extends State<ProfileEdit> {
             child: OutlinedButton(
               onPressed: () {
                 // openConfirmationDialog(context);
+                if (!_formKey.currentState!.validate()) {
+                  return;
+                }
+                _formKey.currentState!.save();
+
+                var editData = {
+                  'profileName': _profileName,
+                  'profileUsername': _profileUsername,
+                  'profileBio': _profileBio,
+                  'profileEmail': _profileEmail,
+                };
+
+                print(editData);
+
+                httpService
+                    .editProfileAPIfunction(editData)
+                    .then((value) async => {});
               },
               child: Text(
                 'Save',
@@ -88,7 +129,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                       Padding(
                         padding: EdgeInsets.only(top: 10),
                         child: TextFormField(
-                          // initialValue: _edit_fullname,
+                          initialValue: _profileName,
                           decoration:
                               const InputDecoration(labelText: 'Profile Name'),
                           validator: (value) {
@@ -97,14 +138,14 @@ class _ProfileEditState extends State<ProfileEdit> {
                             }
                           },
                           onSaved: (value) {
-                            // _edit_fullname = value!;
+                            _profileName = value!;
                           },
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: 10),
                         child: TextFormField(
-                          // initialValue: _edit_username,
+                          initialValue: _profileUsername,
                           decoration:
                               const InputDecoration(labelText: 'Username'),
                           validator: (value) {
@@ -113,14 +154,14 @@ class _ProfileEditState extends State<ProfileEdit> {
                             }
                           },
                           onSaved: (value) {
-                            // _edit_username = value!;
+                            _profileUsername = value!;
                           },
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: 10),
                         child: TextFormField(
-                          // initialValue: _edit_bio,
+                          initialValue: _profileBio,
                           keyboardType: TextInputType.multiline,
                           textInputAction: TextInputAction.newline,
                           minLines: 1,
@@ -129,23 +170,28 @@ class _ProfileEditState extends State<ProfileEdit> {
                           decoration: const InputDecoration(
                               labelText: 'Bio (limit 100 characters)'),
                           onSaved: (value) {
-                            // _edit_bio = value!;
+                            _profileBio = value!;
                           },
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: 10),
                         child: TextFormField(
-                          // initialValue: _edit_username,
-                          decoration:
-                              const InputDecoration(labelText: 'Set Password'),
+                          initialValue: _profileEmail,
+                          decoration: const InputDecoration(labelText: 'Email'),
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Password cannot be empty';
+                              return 'Enter an Email';
+                            }
+
+                            if (!RegExp(
+                                    r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                .hasMatch(value)) {
+                              return 'Please enter a valid Email';
                             }
                           },
                           onSaved: (value) {
-                            // _edit_username = value!;
+                            _profileEmail = value!;
                           },
                         ),
                       ),

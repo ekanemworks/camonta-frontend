@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:camonta/screen/private/layout_add_product/newproduct_info.dart';
 import 'package:camonta/screen/private/layout_open_item/profile_me_open_item.dart';
 import 'package:camonta/screen/private/layout_promotion_process/promotion_type.dart';
 import 'package:camonta/screen/private/profile_edit.dart';
 import 'package:camonta/screen/private/profile_promotions.dart';
 import 'package:camonta/screen/private/profile_settings.dart';
+import 'package:camonta/services/http_service.dart';
+import 'package:camonta/services/session_management.dart';
 import 'package:flutter/material.dart';
 
 class Profile extends StatefulWidget {
@@ -12,6 +16,50 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  final SessionManagement sessionMgt = SessionManagement();
+  final HttpService httpService = HttpService();
+  Map _userData = {
+    'id': 0,
+    'profileType': '',
+    'session': '',
+    'profileName': '',
+    'profileUsername': '',
+    'profilePhoto': '',
+    'profileBio': '',
+    'profileEmail': '',
+    'profileEmailStatus': '',
+    'password': '',
+    'registrationDate': '',
+    'notification': '',
+    'myProductCount': '',
+    'myPurchase': '',
+    'profileLikeForIdList': [],
+    'profileLikeByIdList': [],
+    'profileServes': '',
+    'profilePoints': '',
+  };
+  @override
+  void initState() {
+    // use session management class to set session
+    // use session management class to set session
+    callSession();
+    super.initState();
+  }
+
+  callSession() {
+    // use session management class to set session
+    // use session management class to set session
+    sessionMgt.getSession().then(
+          (value) => {
+            setState(() {
+              // decode
+              _userData = json.decode(value);
+              print(_userData);
+            }),
+          },
+        );
+  }
+
   List _baybn_members_general = [
     '1',
     '2',
@@ -38,7 +86,7 @@ class _ProfileState extends State<Profile> {
         backgroundColor: Colors.white, // 1
         elevation: 0,
         title: Text(
-          'Name',
+          _userData['profileName'],
           style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
         ),
       ),
@@ -78,7 +126,7 @@ class _ProfileState extends State<Profile> {
                             Column(
                               children: [
                                 Text(
-                                  '1',
+                                  _userData['myProductCount'].toString(),
                                   style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
@@ -97,7 +145,7 @@ class _ProfileState extends State<Profile> {
                             Column(
                               children: [
                                 Text(
-                                  '10',
+                                  _userData['profileServes'].toString(),
                                   style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
@@ -116,7 +164,9 @@ class _ProfileState extends State<Profile> {
                             Column(
                               children: [
                                 Text(
-                                  '21',
+                                  _userData['profileLikeByIdList']
+                                      .length
+                                      .toString(),
                                   style: TextStyle(
                                       fontSize: 20,
                                       fontWeight: FontWeight.bold),
@@ -165,7 +215,8 @@ class _ProfileState extends State<Profile> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (context) => ProfileEdit(),
+                                          builder: (context) =>
+                                              ProfileEdit(data: _userData),
                                         ),
                                       );
                                     },
@@ -203,7 +254,7 @@ class _ProfileState extends State<Profile> {
                 alignment: Alignment.centerLeft,
                 padding: EdgeInsets.only(bottom: 20, top: 10),
                 margin: EdgeInsets.only(left: 10),
-                child: Text('Hey there, This is my Camonta bio'),
+                child: Text(_userData['profileBio']),
               ),
               // NAVIGATION CARD
               // NAVIGATION CARD

@@ -15,16 +15,6 @@ class _HomeFeedsState extends State<HomeFeeds> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        foregroundColor: Colors.black,
-        backgroundColor: Colors.white, // 1
-        elevation: 0,
-        title: Text(
-          'Camonta',
-          style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
-        ),
-        actions: [AppbarMe()],
-      ),
       body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.only(left: 15, right: 15, top: 20),
