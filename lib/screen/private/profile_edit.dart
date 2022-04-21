@@ -59,7 +59,10 @@ class _ProfileEditState extends State<ProfileEdit> {
                   'profileUsername': _profileUsername,
                   'profileBio': _profileBio,
                   'profileEmail': _profileEmail,
+                  'profileSession': widget.data['profileSession']
                 };
+
+                if (_profileName == widget.data['profileName']) {}
 
                 print(editData);
 
