@@ -62,10 +62,6 @@ class _ProfileEditState extends State<ProfileEdit> {
                   'profileSession': widget.data['profileSession']
                 };
 
-                if (_profileName == widget.data['profileName']) {}
-
-                print(editData);
-
                 httpService
                     .editProfileAPIfunction(editData)
                     .then((value) async => {});

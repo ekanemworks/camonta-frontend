@@ -9,6 +9,7 @@ class HttpService {
   // FOR IOS AND CHROME WEB : LOCALHOST WORKS FINE
   final String serverAPI = "http://localhost:3000/";
   final String serverAPI_image = "http://localhost:3000/";
+  final String uikey = 'billionairesservicetohumanity2022';
 
   // FOR ANDRIOD AVD cos ANDROID EMULATOR has issues with localhost
   // FOR ANDRIOD AVD cos ANDROID EMULATOR has issues with localhost
@@ -32,7 +33,7 @@ class HttpService {
     try {
       response = await post(
         Uri.parse(serverAPI + 'api1.0/signup/createAccount'),
-        headers: {"Content-Type": "application/json"},
+        headers: {"Content-Type": "application/json", "uikey": uikey},
         body: json.encode(data),
       );
 
@@ -54,7 +55,7 @@ class HttpService {
     try {
       response = await post(
         Uri.parse(serverAPI + 'api1.0/login/Authenticate'),
-        headers: {"Content-Type": "application/json"},
+        headers: {"Content-Type": "application/json", "uikey": uikey},
         body: json.encode(data),
       );
 
@@ -76,7 +77,11 @@ class HttpService {
     try {
       response = await post(
         Uri.parse(serverAPI + 'api1.0/editprofile/saveInformation'),
-        headers: {"Content-Type": "application/json"},
+        headers: {
+          "Content-Type": "application/json",
+          "uikey": uikey,
+          "session": data['profileSession']
+        },
         body: json.encode(data),
       );
 
