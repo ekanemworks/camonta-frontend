@@ -113,10 +113,10 @@ class _HomeState extends State<Home> {
             AppbarMe(),
           ],
         ),
-        body: screens[navigationIndex],
-        // Center(
-        //   child: Text('$navigationIndex'),
-        // ),
+        body: Container(
+          margin: EdgeInsets.only(bottom: 30),
+          child: screens[navigationIndex],
+        ),
         bottomNavigationBar: CurvedNavigationBar(
           color: Colors.white,
 

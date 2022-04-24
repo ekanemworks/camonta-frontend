@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:camonta/screen/private/dashboard.dart';
 import 'package:camonta/screen/private/home.dart';
 import 'package:camonta/screen/private/logistics/logistics_dashboard.dart';
 import 'package:camonta/services/http_service.dart';
+import 'package:camonta/services/session_management.dart';
 import 'package:flutter/material.dart';
 
 class SetupAccount extends StatefulWidget {
@@ -14,6 +17,7 @@ class SetupAccount extends StatefulWidget {
 
 class _SetupAccountState extends State<SetupAccount> {
   final HttpService httpService = HttpService();
+  final SessionManagement sessionMgt = SessionManagement();
 
   late String _edit_profilephoto;
   late String _profileName;
@@ -149,6 +153,7 @@ class _SetupAccountState extends State<SetupAccount> {
                           // initialValue: _edit_username,
                           decoration:
                               const InputDecoration(labelText: 'Set Password'),
+                          obscureText: true,
                           validator: (value) {
                             if (value!.isEmpty) {
                               return 'Password cannot be empty';
@@ -202,18 +207,64 @@ class _SetupAccountState extends State<SetupAccount> {
                               httpService
                                   .signupAPIfunction(signupdata)
                                   .then((value) async => {
-                                        print('ekanem')
-                                        // if (_password == '')
-                                        //   {
-                                        //     // FOR NORMAL ACCOUNT
-                                        //     // FOR NORMAL ACCOUNT
-                                        //     Navigator.push(
-                                        //       context,
-                                        //       MaterialPageRoute(
-                                        //         builder: (context) => Home(),
-                                        //       ),
-                                        //     )
-                                        //   }
+                                        if (value['status'] == 'ok')
+                                          {
+                                            sessionMgt.setSession({
+                                              'id': value['body']['id'],
+                                              'profileType': value['body']
+                                                  ['profileType'],
+                                              'profileSession': value['body']
+                                                  ['profileSession'],
+                                              'profileName': value['body']
+                                                  ['profileName'],
+                                              'profileUsername': value['body']
+                                                  ['profileUsername'],
+                                              'profilePhoto': value['body']
+                                                  ['profilePhoto'],
+                                              'profileBio': value['body']
+                                                  ['profileBio'],
+                                              'profileEmail': value['body']
+                                                  ['profileEmail'],
+                                              'profileEmailStatus':
+                                                  value['body']
+                                                      ['profileEmailStatus'],
+                                              'password': value['body']
+                                                  ['password'],
+                                              'registrationDate': value['body']
+                                                  ['registrationDate'],
+                                              'notification': json.decode(
+                                                  value['body']
+                                                      ['notification']),
+                                              'myProductCount': value['body']
+                                                  ['myProductCount'],
+                                              'myPurchase': json.decode(
+                                                  value['body']['myPurchase']),
+                                              'profileLikeForIdList':
+                                                  json.decode(value['body']
+                                                      ['profileLikeForIdList']),
+                                              'profileLikeByIdList':
+                                                  json.decode(value['body']
+                                                      ['profileLikeByIdList']),
+                                              'profileServes': value['body']
+                                                  ['profileServes'],
+                                              'profilePoints': value['body']
+                                                  ['profilePoints'],
+                                            }),
+
+                                            // FOR NORMAL ACCOUNT
+                                            // FOR NORMAL ACCOUNT
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) => Home(),
+                                              ),
+                                            )
+                                          }
+                                        else
+                                          {
+                                            _showToast(
+                                                context, value['message'])
+                                          }
                                       });
 
                               // FOR LOGISTICS ACCOUNT
@@ -242,5 +293,17 @@ class _SetupAccountState extends State<SetupAccount> {
         ),
       ),
     );
+  }
+
+  void _showToast(BuildContext context, message) {
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        content: Text(message),
+        action: SnackBarAction(
+            label: 'Close', onPressed: scaffold.hideCurrentSnackBar),
+      ),
+    );
+    print(context);
   }
 }

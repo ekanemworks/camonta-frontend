@@ -143,81 +143,84 @@ class _WalletState extends State<Wallet> {
                       ),
                       child: Row(
                         children: [
-                          Container(
-                            height: 50,
-                            width: 150,
-                            decoration: BoxDecoration(
-                              color: Color(0xffC50303),
-                              borderRadius: BorderRadius.circular(23.0),
-                              border: Border.all(
-                                color: Color(0xffC50303),
-                              ),
-                            ),
-                            child: SizedBox(
-                              width: double.maxFinite, // <-- Your width
+                          Expanded(
+                            child: Container(
                               height: 50,
-                              child: ElevatedButton(
-                                child: const Text(
-                                  'Fund Wallet',
-                                  style: TextStyle(
-                                      fontSize: 14,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold),
+                              // width: 150,
+                              decoration: BoxDecoration(
+                                color: Color(0xffC50303),
+                                borderRadius: BorderRadius.circular(23.0),
+                                border: Border.all(
+                                  color: Color(0xffC50303),
                                 ),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => FundWallet(),
-                                    ),
-                                  );
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  primary: Colors.transparent,
-                                  shadowColor: Colors.transparent,
+                              ),
+                              child: SizedBox(
+                                width: double.maxFinite, // <-- Your width
+                                height: 50,
+                                child: ElevatedButton(
+                                  child: const Text(
+                                    'Fund Wallet',
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => FundWallet(),
+                                      ),
+                                    );
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.transparent,
+                                    shadowColor: Colors.transparent,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                           SizedBox(width: 20),
-                          Container(
-                            height: 50,
-                            width: 150,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(23.0),
-                            ),
-                            child: SizedBox(
-                              width: double.maxFinite, // <-- Your width
+                          Expanded(
+                            child: Container(
                               height: 50,
-                              child: ElevatedButton(
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    const Text(
-                                      'Withdraw',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(23.0),
+                              ),
+                              child: SizedBox(
+                                width: double.maxFinite, // <-- Your width
+                                height: 50,
+                                child: ElevatedButton(
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      const Text(
+                                        'Withdraw',
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                                       ),
-                                    ),
-                                    Icon(Icons.arrow_right_alt,
-                                        color: Colors.black)
-                                  ],
-                                ),
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => WithdrawAmount(),
-                                    ),
-                                  );
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  primary: Colors.transparent,
-                                  shadowColor: Colors.transparent,
+                                      Icon(Icons.arrow_right_alt,
+                                          color: Colors.black)
+                                    ],
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => WithdrawAmount(),
+                                      ),
+                                    );
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    primary: Colors.transparent,
+                                    shadowColor: Colors.transparent,
+                                  ),
                                 ),
                               ),
                             ),

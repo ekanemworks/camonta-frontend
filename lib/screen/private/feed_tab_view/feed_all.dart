@@ -76,7 +76,7 @@ class _FeedAllState extends State<FeedAll> {
             Container(
               // color: Colors.green,
               width: MediaQuery.of(context).size.width - 10,
-              height: MediaQuery.of(context).size.height - 120,
+              height: MediaQuery.of(context).size.height,
               // height: 1000,
               child: GridView(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

@@ -27,7 +27,7 @@ class _SignUpState extends State<SignUp> {
         backgroundColor: Colors.white, // 1
         elevation: 0,
       ),
-      body: Container(
+      body: SingleChildScrollView(
         child: Center(
           child: Container(
             height: 600,
