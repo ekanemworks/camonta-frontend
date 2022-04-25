@@ -1,4 +1,6 @@
+import 'package:camonta/screen/private/home.dart';
 import 'package:camonta/screen/public/getstarted.dart';
+import 'package:camonta/services/session_management.dart';
 import 'package:flutter/material.dart';
 
 class Onboarding extends StatefulWidget {
@@ -9,6 +11,33 @@ class Onboarding extends StatefulWidget {
 class _OnboardingState extends State<Onboarding> {
   PageController _controller = PageController();
   int _currentPage = 0;
+  final SessionManagement sessionMgt = SessionManagement();
+
+  @override
+  void initState() {
+    // use session management class to set session
+    // use session management class to set session
+    callSession();
+    super.initState();
+  }
+
+  callSession() {
+    // use session management class to set session
+    // use session management class to set session
+    sessionMgt.getSession().then(
+          (value) => {
+            if (value != 'empty')
+              {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Home(),
+                  ),
+                )
+              }
+          },
+        );
+  }
 
   @override
   Widget build(BuildContext context) {

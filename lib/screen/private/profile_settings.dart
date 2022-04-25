@@ -1,3 +1,5 @@
+import 'package:camonta/screen/public/startScreen.dart';
+import 'package:camonta/services/session_management.dart';
 import 'package:flutter/material.dart';
 
 class ProfileSettings extends StatefulWidget {
@@ -7,6 +9,7 @@ class ProfileSettings extends StatefulWidget {
 
 class _ProfileSettingsState extends State<ProfileSettings> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final SessionManagement sessionMgt = SessionManagement();
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +97,23 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         ),
                       ),
 
-                      const SizedBox(height: 20),
+                      const SizedBox(height: 50),
+                      OutlinedButton(
+                        onPressed: () {
+                          sessionMgt.destroySession();
+
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => StartScreen(),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'Log out',
+                          style: TextStyle(color: Colors.black54),
+                        ),
+                      )
 
                       // Text(mapdata.toString()),
                     ],

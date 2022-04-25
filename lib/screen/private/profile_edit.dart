@@ -39,8 +39,12 @@ class _ProfileEditState extends State<ProfileEdit> {
         foregroundColor: Colors.black,
         backgroundColor: Colors.white, // 1
         elevation: 0,
+        // leading: IconButton(
+        //   icon: const Icon(Icons.arrow_back_ios),
+        //   onPressed: () => Navigator.of(context).pop(true),
+        // ),
         title: Text(
-          'Edit Item',
+          'Edit Profile',
           style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
         ),
         actions: [
@@ -64,7 +68,47 @@ class _ProfileEditState extends State<ProfileEdit> {
 
                 httpService
                     .editProfileAPIfunction(editData)
-                    .then((value) async => {});
+                    .then((value) async => {
+                          if (value['status'] == 'ok')
+                            {
+                              // use session management class to set session
+                              // use session management class to set session
+                              sessionMgt.setSession({
+                                'id': value['body']['id'],
+                                'profileType': value['body']['profileType'],
+                                'profileSession': value['body']
+                                    ['profileSession'],
+                                'profileName': value['body']['profileName'],
+                                'profileUsername': value['body']
+                                    ['profileUsername'],
+                                'profilePhoto': value['body']['profilePhoto'],
+                                'profileBio': value['body']['profileBio'],
+                                'profileEmail': value['body']['profileEmail'],
+                                'profileEmailStatus': value['body']
+                                    ['profileEmailStatus'],
+                                'password': value['body']['password'],
+                                'registrationDate': value['body']
+                                    ['registrationDate'],
+                                'notification':
+                                    json.decode(value['body']['notification']),
+                                'myProductCount': value['body']
+                                    ['myProductCount'],
+                                'myPurchase':
+                                    json.decode(value['body']['myPurchase']),
+                                'profileLikeForIdList': json.decode(
+                                    value['body']['profileLikeForIdList']),
+                                'profileLikeByIdList': json.decode(
+                                    value['body']['profileLikeByIdList']),
+                                'profileServes': value['body']['profileServes'],
+                                'profilePoints': value['body']['profilePoints'],
+                              }),
+                              _showToast(context, 'Changes Saved'),
+                            }
+                          else
+                            {
+                              _showToast(context, value['message']),
+                            }
+                        });
               },
               child: Text(
                 'Save',
@@ -206,5 +250,17 @@ class _ProfileEditState extends State<ProfileEdit> {
         ),
       ),
     );
+  }
+
+  void _showToast(BuildContext context, message) {
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        content: Text(message),
+        action: SnackBarAction(
+            label: 'Close', onPressed: scaffold.hideCurrentSnackBar),
+      ),
+    );
+    print(context);
   }
 }

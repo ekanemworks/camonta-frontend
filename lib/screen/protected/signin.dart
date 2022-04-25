@@ -19,6 +19,32 @@ class _SignInState extends State<SignIn> {
   late String _password;
 
   @override
+  void initState() {
+    // use session management class to set session
+    // use session management class to set session
+    callSession();
+    super.initState();
+  }
+
+  callSession() {
+    // use session management class to set session
+    // use session management class to set session
+    sessionMgt.getSession().then(
+          (value) => {
+            if (value != 'empty')
+              {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Home(),
+                  ),
+                )
+              }
+          },
+        );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -148,8 +174,6 @@ class _SignInState extends State<SignIn> {
                                       httpService
                                           .loginAPIfunction(loginValues)
                                           .then((value) async => {
-                                                print('ekanem'),
-
                                                 if (value['status'] == 'ok')
                                                   {
                                                     // print(value['body']),

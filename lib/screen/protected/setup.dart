@@ -30,11 +30,30 @@ class _SetupAccountState extends State<SetupAccount> {
 
   @override
   void initState() {
+    callSession();
     setState(() {
       _mapdata = widget.signupData1;
     });
 
     super.initState();
+  }
+
+  callSession() {
+    // use session management class to set session
+    // use session management class to set session
+    sessionMgt.getSession().then(
+          (value) => {
+            if (value != 'empty')
+              {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Home(),
+                  ),
+                )
+              }
+          },
+        );
   }
 
   @override

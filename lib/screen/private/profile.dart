@@ -18,6 +18,7 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   final SessionManagement sessionMgt = SessionManagement();
   final HttpService httpService = HttpService();
+  var _editedProfile;
   Map _userData = {
     'id': 0,
     'profileType': '',
@@ -54,7 +55,7 @@ class _ProfileState extends State<Profile> {
             setState(() {
               // decode
               _userData = json.decode(value);
-              print(_userData);
+              // print(_userData);
             }),
           },
         );
@@ -211,14 +212,20 @@ class _ProfileState extends State<Profile> {
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold),
                                     ),
-                                    onPressed: () {
-                                      Navigator.push(
+                                    onPressed: () async {
+                                      _editedProfile = await Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
                                               ProfileEdit(data: _userData),
                                         ),
                                       );
+
+                                      if (_editedProfile == null) {
+                                        callSession();
+                                      } else {
+                                        callSession();
+                                      }
                                     },
                                     style: ElevatedButton.styleFrom(
                                       primary: Colors.transparent,
