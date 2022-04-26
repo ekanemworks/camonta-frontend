@@ -19,6 +19,7 @@ class _ProfileCustomerState extends State<ProfileCustomer> {
   final SessionManagement sessionMgt = SessionManagement();
   final HttpService httpService = HttpService();
   var _editedProfile;
+  List _myOrder = [];
   Map _userData = {
     'id': 0,
     'profileType': '',
@@ -308,22 +309,23 @@ class _ProfileCustomerState extends State<ProfileCustomer> {
                 ),
               ),
 
-              Container(
-                // color: Colors.green,
-                width: MediaQuery.of(context).size.width - 10,
-                height: MediaQuery.of(context).size.height,
-                // height: 1000,
-                child: GridView(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                      childAspectRatio: 2 / 3),
-                  children: _baybn_members_general.map((e) {
-                    return listItem2(e);
-                  }).toList(),
-                ),
-              ),
+              _myOrder.isNotEmpty
+                  ? Container(
+                      width: MediaQuery.of(context).size.width - 10,
+                      height: MediaQuery.of(context).size.height,
+                      // height: 1000,
+                      child: GridView(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                            childAspectRatio: 2 / 3),
+                        children: _baybn_members_general.map((e) {
+                          return listItem2(e);
+                        }).toList(),
+                      ),
+                    )
+                  : Container(),
             ],
           ),
         ),
