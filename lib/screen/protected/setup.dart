@@ -226,6 +226,7 @@ class _SetupAccountState extends State<SetupAccount> {
                               httpService
                                   .signupAPIfunction(signupdata)
                                   .then((value) async => {
+                                        print(value),
                                         if (value['status'] == 'ok')
                                           {
                                             sessionMgt.setSession({
@@ -281,6 +282,7 @@ class _SetupAccountState extends State<SetupAccount> {
                                           }
                                         else
                                           {
+                                            print('sas'),
                                             _showToast(
                                                 context, value['message'])
                                           }

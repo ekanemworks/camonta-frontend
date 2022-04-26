@@ -1,4 +1,4 @@
-import 'package:camonta/screen/private/layout_wallet_processes/fund_wallet_transfer.dart';
+import 'package:camonta/screen/private/wallet_processes/fund_wallet_transfer.dart';
 import 'package:flutter/material.dart';
 
 class FundWallet extends StatefulWidget {

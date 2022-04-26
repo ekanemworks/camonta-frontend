@@ -1,4 +1,4 @@
-import 'package:camonta/screen/private/layout_wallet_processes/withdraw_destination.dart';
+import 'package:camonta/screen/private/wallet_processes/withdraw_destination.dart';
 import 'package:flutter/material.dart';
 
 class WithdrawAmount extends StatefulWidget {

@@ -14,8 +14,9 @@ class _SignUpState extends State<SignUp> {
   final List myItems = [
     'Account Type',
     '',
-    'Customer Account    - free ₦0',
-    'Chef/Vendor Account - free ₦0',
+    'Customer',
+    'Chef / Catering',
+    'Restaurant',
     'Logistic Company (fee ₦7,000)',
   ]; // List of items to show in dropdownlist
 
