@@ -335,52 +335,6 @@ class _ProfileCustomerState extends State<ProfileCustomer> {
             height: 44,
             width: 150,
             decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20.0),
-              border: Border.all(
-                  // width: 2,
-                  // color: Color(0xffC50303),
-                  color: Colors.transparent),
-            ),
-            child: SizedBox(
-              width: double.maxFinite, // <-- Your width
-              height: 50,
-              child: ElevatedButton(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Add Meal',
-                      style: TextStyle(
-                          fontSize: 14,
-                          color: Color(0xffC50303),
-                          fontWeight: FontWeight.bold),
-                    ),
-                    Icon(Icons.add, color: Color(0xffC50303))
-                  ],
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => NewProductInfo(),
-                    ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.transparent,
-                  shadowColor: Colors.transparent,
-                ),
-              ),
-            ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-            height: 44,
-            width: 150,
-            decoration: BoxDecoration(
               color: Color(0xffC50303),
               borderRadius: BorderRadius.circular(20.0),
               border: Border.all(
@@ -395,7 +349,7 @@ class _ProfileCustomerState extends State<ProfileCustomer> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     const Text(
-                      'Promote',
+                      'Create Ad',
                       style: TextStyle(
                           fontSize: 14,
                           color: Colors.white,
