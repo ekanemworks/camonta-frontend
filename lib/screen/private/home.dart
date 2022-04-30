@@ -1,11 +1,11 @@
 import 'dart:convert';
 
-import 'package:camonta/screen/private/cart.dart';
-import 'package:camonta/screen/private/explore.dart';
-import 'package:camonta/screen/private/home_feeds.dart';
-import 'package:camonta/screen/private/layout_appbar_me/appbar_me.dart';
-import 'package:camonta/screen/private/layout_notification/notification.dart';
-import 'package:camonta/screen/private/wallet.dart';
+import 'package:camonta/screen/private/cart/cart.dart';
+import 'package:camonta/screen/private/explore/explore.dart';
+import 'package:camonta/screen/private/feeds/timeline.dart';
+import 'package:camonta/screen/private/appbar_action_layout/appbar_me.dart';
+import 'package:camonta/screen/private/notification/notification.dart';
+import 'package:camonta/screen/private/wallet/wallet.dart';
 import 'package:camonta/services/http_service.dart';
 import 'package:camonta/services/session_management.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
@@ -98,7 +98,16 @@ class _HomeState extends State<Home> {
         extendBody: true,
         appBar: AppBar(
           // foregroundColor: Colors.black,
-          backgroundColor: Color(0xffBA265E), // 1
+          // backgroundColor: Color(0xff008a81), // 1
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: <Color>[Color(0xff9F033E), Color(0xff5A0324)],
+              ),
+            ),
+          ),
           elevation: 0,
           title: Text(
             navigationIndex == 0
@@ -122,7 +131,7 @@ class _HomeState extends State<Home> {
         ),
         bottomNavigationBar: CurvedNavigationBar(
           // color: Color(0xff454545),
-          color: Colors.white,
+          color: Color(0xff222127),
           // color: navigationIndex == 0 ? Colors.red : Colors.black,
           buttonBackgroundColor: Color(0xffBF084D),
           backgroundColor: Colors.transparent,
