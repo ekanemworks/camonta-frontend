@@ -12,43 +12,80 @@ class HomeFeeds extends StatefulWidget {
 }
 
 class _HomeFeedsState extends State<HomeFeeds> {
+  List _chefs = [
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+    '',
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.only(left: 15, right: 15, top: 20),
           child: Column(
             children: [
-              TextFormField(
-                decoration: const InputDecoration(
-                  // labelText: 'Email Address',
-                  prefixIcon: Icon(Icons.search),
-                  suffixIcon: Icon(Icons.sort_rounded),
-                  hintText: "Search Meal",
-                  fillColor: Colors.white,
-                  filled: true,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(16.0),
-                    ),
-                  ),
+              Container(
+                alignment: Alignment.centerLeft,
+                margin: EdgeInsets.only(left: 10, top: 20),
+                child: Text(
+                  'Chef',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Enter a valid Email';
-                  }
-
-                  if (!RegExp(
-                          r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                      .hasMatch(value)) {
-                    return 'Please enter a valid phone number';
-                  }
-                },
-                onSaved: (value) {
-                  // _emailAddress = value!;
-                },
               ),
+              Container(
+                height: 180,
+                // color: Colors.green,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: _chefs.map((e) {
+                    return Container(
+                      // height: 100,
+                      width: 100,
+                      // color: Colors.grey,
+                      margin: EdgeInsets.only(left: 7, top: 10, bottom: 10),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.grey,
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ),
+
+              // TextFormField(
+              //   decoration: const InputDecoration(
+              //     // labelText: 'Email Address',
+              //     prefixIcon: Icon(Icons.search),
+              //     suffixIcon: Icon(Icons.sort_rounded),
+              //     hintText: "Search Meal",
+              //     fillColor: Colors.white,
+              //     filled: true,
+              //     border: OutlineInputBorder(
+              //       borderRadius: BorderRadius.all(
+              //         Radius.circular(16.0),
+              //       ),
+              //     ),
+              //   ),
+              //   validator: (value) {
+              //     if (value!.isEmpty) {
+              //       return 'Enter a valid Email';
+              //     }
+
+              //     if (!RegExp(
+              //             r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+              //         .hasMatch(value)) {
+              //       return 'Please enter a valid phone number';
+              //     }
+              //   },
+              //   onSaved: (value) {
+              //     // _emailAddress = value!;
+              //   },
+              // ),
               SizedBox(
                 height: 20,
               ),
@@ -57,7 +94,7 @@ class _HomeFeedsState extends State<HomeFeeds> {
               // TAB IN HOME FEED SCREEN: START
               DefaultTabController(
                 initialIndex: 0,
-                length: 5,
+                length: 4,
                 child: Column(
                   children: [
                     Container(
@@ -72,10 +109,7 @@ class _HomeFeedsState extends State<HomeFeeds> {
                         ),
                         tabs: [
                           Tab(
-                            text: 'All',
-                          ),
-                          Tab(
-                            text: 'Fruits',
+                            text: 'For You',
                           ),
                           Tab(
                             text: 'Meals',
@@ -84,7 +118,7 @@ class _HomeFeedsState extends State<HomeFeeds> {
                             text: 'Drinks',
                           ),
                           Tab(
-                            text: 'Groceries',
+                            text: 'Farm',
                           ),
                         ],
                       ),
@@ -99,7 +133,7 @@ class _HomeFeedsState extends State<HomeFeeds> {
                           FeedFruits(),
                           FeedMeals(),
                           FeedDrinks(),
-                          FeedGroceries(),
+                          // FeedGroceries(),
                         ],
                       ),
                     ),

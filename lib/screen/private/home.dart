@@ -4,6 +4,7 @@ import 'package:camonta/screen/private/cart.dart';
 import 'package:camonta/screen/private/explore.dart';
 import 'package:camonta/screen/private/home_feeds.dart';
 import 'package:camonta/screen/private/layout_appbar_me/appbar_me.dart';
+import 'package:camonta/screen/private/layout_notification/notification.dart';
 import 'package:camonta/screen/private/wallet.dart';
 import 'package:camonta/services/http_service.dart';
 import 'package:camonta/services/session_management.dart';
@@ -84,6 +85,7 @@ class _HomeState extends State<Home> {
     HomeFeeds(),
     Explore(),
     Cart(),
+    AppNotification(),
     Wallet(),
   ];
 
@@ -94,10 +96,9 @@ class _HomeState extends State<Home> {
     return MaterialApp(
       home: Scaffold(
         extendBody: true,
-        backgroundColor: Colors.grey.shade100,
         appBar: AppBar(
-          foregroundColor: Colors.black,
-          backgroundColor: Colors.white, // 1
+          // foregroundColor: Colors.black,
+          backgroundColor: Color(0xffBA265E), // 1
           elevation: 0,
           title: Text(
             navigationIndex == 0
@@ -106,7 +107,9 @@ class _HomeState extends State<Home> {
                     ? 'Explore'
                     : navigationIndex == 2
                         ? 'Cart'
-                        : 'Wallet',
+                        : navigationIndex == 3
+                            ? 'Notification'
+                            : 'Wallet',
             style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
           ),
           actions: [
@@ -118,10 +121,10 @@ class _HomeState extends State<Home> {
           child: screens[navigationIndex],
         ),
         bottomNavigationBar: CurvedNavigationBar(
+          // color: Color(0xff454545),
           color: Colors.white,
-
           // color: navigationIndex == 0 ? Colors.red : Colors.black,
-          buttonBackgroundColor: Color(0xffC50303),
+          buttonBackgroundColor: Color(0xffBF084D),
           backgroundColor: Colors.transparent,
           animationCurve: Curves.easeInOut,
           animationDuration: Duration(milliseconds: 200),
@@ -129,22 +132,27 @@ class _HomeState extends State<Home> {
             Icon(
               Icons.home_filled,
               size: 30,
-              color: navigationIndex == 0 ? Colors.white : Colors.black,
+              color: navigationIndex == 0 ? Colors.white : Color(0xffC3C3C3),
             ),
             Icon(
               Icons.explore,
               size: 30,
-              color: navigationIndex == 1 ? Colors.white : Colors.black,
+              color: navigationIndex == 1 ? Colors.white : Color(0xffC3C3C3),
             ),
             Icon(
               Icons.shopping_cart,
               size: 30,
-              color: navigationIndex == 2 ? Colors.white : Colors.black,
+              color: navigationIndex == 2 ? Colors.white : Color(0xffC3C3C3),
+            ),
+            Icon(
+              Icons.favorite,
+              size: 30,
+              color: navigationIndex == 3 ? Colors.white : Colors.grey,
             ),
             Icon(
               Icons.account_balance_wallet,
               size: 30,
-              color: navigationIndex == 3 ? Colors.white : Colors.black,
+              color: navigationIndex == 4 ? Colors.white : Colors.grey,
             ),
           ],
           index: navigationIndex,
