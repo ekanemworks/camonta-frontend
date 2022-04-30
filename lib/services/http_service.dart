@@ -7,15 +7,15 @@ class HttpService {
   // FOR IOS AND CHROME WEB : LOCALHOST WORKS FINE
   // FOR IOS AND CHROME WEB : LOCALHOST WORKS FINE
   // FOR IOS AND CHROME WEB : LOCALHOST WORKS FINE
-  // final String serverAPI = "http://localhost:3000/";
-  // final String serverAPI_image = "http://localhost:3000/";
+  final String serverAPI = "http://localhost:3000/";
+  final String serverAPI_image = "http://localhost:3000/";
   final String uikey = 'billionairesservicetohumanity2022';
 
   // FOR ANDRIOD AVD cos ANDROID EMULATOR has issues with localhost
   // FOR ANDRIOD AVD cos ANDROID EMULATOR has issues with localhost
   // FOR ANDRIOD AVD cos ANDROID EMULATOR has issues with localhost
-  final String serverAPI = "http://10.0.2.2:3000/";
-  final String serverAPI_image = "http://10.0.2.2:3000/";
+  // final String serverAPI = "http://10.0.2.2:3000/";
+  // final String serverAPI_image = "http://10.0.2.2:3000/";
 
   // USING SPECIFIC IP ADDRESS
   // USING SPECIFIC IP ADDRESS

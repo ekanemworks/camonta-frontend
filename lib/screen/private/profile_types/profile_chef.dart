@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:camonta/screen/private/layout_add_product/newproduct_info.dart';
 import 'package:camonta/screen/private/layout_open_item/profile_me_open_item.dart';
 import 'package:camonta/screen/private/layout_promotion_process/promotion_type.dart';
 import 'package:camonta/screen/private/profile_edit.dart';
@@ -18,6 +19,8 @@ class _ProfileChefState extends State<ProfileChef> {
   final SessionManagement sessionMgt = SessionManagement();
   final HttpService httpService = HttpService();
   var _editedProfile;
+  List _myProducts = [];
+
   Map _userData = {
     'id': 0,
     'profileType': '',
@@ -82,8 +85,8 @@ class _ProfileChefState extends State<ProfileChef> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        foregroundColor: Colors.black,
-        backgroundColor: Colors.white, // 1
+        // foregroundColor: Colors.black,
+        backgroundColor: Color(0xff840233), // 1
         elevation: 0,
         title: Text(
           _userData['profileName'],
@@ -192,10 +195,10 @@ class _ProfileChefState extends State<ProfileChef> {
                                 height: 44,
                                 width: 150,
                                 decoration: BoxDecoration(
-                                  color: Color(0xffC50303),
+                                  color: Color(0xff840233),
                                   borderRadius: BorderRadius.circular(10.0),
                                   border: Border.all(
-                                    color: Color(0xffC50303),
+                                    color: Color(0xff840233),
                                   ),
                                 ),
                                 child: SizedBox(
@@ -280,7 +283,7 @@ class _ProfileChefState extends State<ProfileChef> {
                           Padding(
                             padding: EdgeInsets.all(3.0),
                             child: Text(
-                              'My Purchase',
+                              'My Products',
                               style:
                                   TextStyle(fontSize: 13, color: Colors.grey),
                             ),
@@ -326,22 +329,40 @@ class _ProfileChefState extends State<ProfileChef> {
                 ),
               ),
 
-              Container(
-                // color: Colors.green,
-                width: MediaQuery.of(context).size.width - 10,
-                height: MediaQuery.of(context).size.height,
-                // height: 1000,
-                child: GridView(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
-                      childAspectRatio: 2 / 3),
-                  children: _baybn_members_general.map((e) {
-                    return listItem2(e);
-                  }).toList(),
-                ),
-              ),
+              _myProducts.isNotEmpty
+                  ? Container(
+                      width: MediaQuery.of(context).size.width - 10,
+                      height: MediaQuery.of(context).size.height,
+                      // height: 1000,
+                      child: GridView(
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                            childAspectRatio: 2 / 3),
+                        children: _baybn_members_general.map((e) {
+                          return listItem2(e);
+                        }).toList(),
+                      ),
+                    )
+                  : Container(
+                      height: MediaQuery.of(context).size.width,
+                      child: Center(
+                        child: Container(
+                          height: 100,
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.shopping_bag,
+                                size: 50,
+                              ),
+                              SizedBox(height: 20),
+                              Text('You have no meal to display')
+                            ],
+                          ),
+                        ),
+                      ),
+                    )
             ],
           ),
         ),
@@ -353,10 +374,57 @@ class _ProfileChefState extends State<ProfileChef> {
             height: 44,
             width: 150,
             decoration: BoxDecoration(
-              color: Color(0xffC50303),
+              color: Color(0xffF3EFEF),
               borderRadius: BorderRadius.circular(20.0),
               border: Border.all(
-                color: Color(0xffC50303),
+                color: Color(0xffEBEAEA),
+              ),
+            ),
+            child: SizedBox(
+              width: double.maxFinite, // <-- Your width
+              height: 50,
+              child: TextButton(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Add Meal',
+                      style: TextStyle(
+                          fontSize: 14,
+                          color: Color(0xff840233),
+                          fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(width: 5),
+                    Icon(
+                      Icons.add_shopping_cart,
+                      color: Color(0xff840233),
+                    )
+                  ],
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => NewProductInfo(),
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.transparent,
+                  shadowColor: Colors.transparent,
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 10),
+          Container(
+            height: 44,
+            width: 150,
+            decoration: BoxDecoration(
+              color: Color(0xff840233),
+              borderRadius: BorderRadius.circular(20.0),
+              border: Border.all(
+                color: Color(0xff840233),
               ),
             ),
             child: SizedBox(
@@ -373,6 +441,7 @@ class _ProfileChefState extends State<ProfileChef> {
                           color: Colors.white,
                           fontWeight: FontWeight.bold),
                     ),
+                    SizedBox(width: 5),
                     Icon(Icons.record_voice_over_outlined)
                   ],
                 ),

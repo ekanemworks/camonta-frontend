@@ -6,6 +6,7 @@ import 'package:camonta/screen/private/layout_promotion_process/promotion_type.d
 import 'package:camonta/screen/private/profile_edit.dart';
 import 'package:camonta/screen/private/profile_promotions.dart';
 import 'package:camonta/screen/private/profile_settings.dart';
+import 'package:camonta/screen/private/profile_types/profile_chef.dart';
 import 'package:camonta/screen/private/profile_types/profile_customer.dart';
 import 'package:camonta/services/http_service.dart';
 import 'package:camonta/services/session_management.dart';
@@ -67,7 +68,7 @@ class _ProfileState extends State<Profile> {
     if (_userData['profileType'] == 'Customer') {
       return ProfileCustomer();
     } else {
-      return ProfileCustomer();
+      return ProfileChef();
     }
   }
 }

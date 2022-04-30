@@ -49,7 +49,6 @@ class _ExploreState extends State<Explore> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          color: Colors.red,
           child: Column(
             children: [
               // Chefs
@@ -116,7 +115,7 @@ class _ExploreState extends State<Explore> {
                     children: List.generate(
                       20,
                       (index) => Container(
-                        color: Colors.white,
+                        color: Colors.grey,
                         child: Icon(
                           Icons.touch_app,
                           size: 30,

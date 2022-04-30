@@ -325,7 +325,24 @@ class _ProfileCustomerState extends State<ProfileCustomer> {
                         }).toList(),
                       ),
                     )
-                  : Container(),
+                  : Container(
+                      height: MediaQuery.of(context).size.width,
+                      child: Center(
+                        child: Container(
+                          height: 100,
+                          child: Column(
+                            children: [
+                              Icon(
+                                Icons.shopping_bag,
+                                size: 50,
+                              ),
+                              SizedBox(height: 20),
+                              Text('You have no order')
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
             ],
           ),
         ),
