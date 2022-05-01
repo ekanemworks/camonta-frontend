@@ -98,171 +98,184 @@ class _ProfileChefState extends State<ProfileChef> {
           padding: EdgeInsets.only(left: 15, right: 15, top: 20),
           child: Column(
             children: [
-              Row(
-                children: [
-                  Container(
-                    width: 120,
-                    height: 120,
-                    margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                    // color: Colors.purple,
-                    // child: Image.asset('assets/default.png'),
+              Card(
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: 120,
+                          height: 120,
+                          margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                          // color: Colors.purple,
+                          child: Image.asset('assets/default_dp.png'),
 
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(120),
-                      child: Image.asset(
-                        'assets/default_dp.png',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  SizedBox(width: 20),
-                  Column(
-                    children: [
-                      Container(
-                        // width: MediaQuery.of(context).size.width - 190,
-
-                        width: MediaQuery.of(context).size.width - 200,
-                        padding: EdgeInsets.all(10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            Column(
-                              children: [
-                                Text(
-                                  _userData['myProductCount'].toString(),
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                // Padding(padding: const EdgeInsets.all(2), chid:)
-                                Padding(
-                                  padding: EdgeInsets.all(3.0),
-                                  child: Text(
-                                    'Products',
-                                    style: TextStyle(
-                                        fontSize: 13, color: Colors.grey),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                Text(
-                                  _userData['profileServes'].toString(),
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                // Padding(padding: const EdgeInsets.all(2), chid:)
-                                Padding(
-                                  padding: EdgeInsets.all(3.0),
-                                  child: Text(
-                                    'Serves',
-                                    style: TextStyle(
-                                        fontSize: 13, color: Colors.grey),
-                                  ),
-                                ),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                Text(
-                                  _userData['profileServes'].toString(),
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                                // Padding(padding: const EdgeInsets.all(2), chid:)
-                                Padding(
-                                  padding: EdgeInsets.all(3.0),
-                                  child: Text(
-                                    'Likes',
-                                    style: TextStyle(
-                                        fontSize: 13, color: Colors.grey),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
+                          // child: ClipRRect(
+                          //   borderRadius: BorderRadius.circular(120),
+                          //   child: Image.asset(
+                          //     'assets/default_dp.png',
+                          //     fit: BoxFit.cover,
+                          //   ),
+                          // ),
                         ),
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width - 200,
-                        child: Row(
+                        SizedBox(width: 20),
+                        Column(
                           children: [
-                            Expanded(
-                              child: Container(
-                                height: 44,
-                                width: 150,
-                                decoration: BoxDecoration(
-                                  color: Color(0xff840233),
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  border: Border.all(
-                                    color: Color(0xff840233),
+                            Container(
+                              // width: MediaQuery.of(context).size.width - 190,
+
+                              width: MediaQuery.of(context).size.width - 200,
+                              padding: EdgeInsets.all(10),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceAround,
+                                children: [
+                                  Column(
+                                    children: [
+                                      Text(
+                                        _userData['myProductCount'].toString(),
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      // Padding(padding: const EdgeInsets.all(2), chid:)
+                                      Padding(
+                                        padding: EdgeInsets.all(3.0),
+                                        child: Text(
+                                          'Products',
+                                          style: TextStyle(
+                                              fontSize: 13, color: Colors.grey),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                ),
-                                child: SizedBox(
-                                  width: double.maxFinite, // <-- Your width
-                                  height: 50,
-                                  child: ElevatedButton(
-                                    child: const Text(
-                                      'Edit Profile',
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        _userData['profileServes'].toString(),
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      // Padding(padding: const EdgeInsets.all(2), chid:)
+                                      Padding(
+                                        padding: EdgeInsets.all(3.0),
+                                        child: Text(
+                                          'Serves',
+                                          style: TextStyle(
+                                              fontSize: 13, color: Colors.grey),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  Column(
+                                    children: [
+                                      Text(
+                                        _userData['profileServes'].toString(),
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                      // Padding(padding: const EdgeInsets.all(2), chid:)
+                                      Padding(
+                                        padding: EdgeInsets.all(3.0),
+                                        child: Text(
+                                          'Likes',
+                                          style: TextStyle(
+                                              fontSize: 13, color: Colors.grey),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              width: MediaQuery.of(context).size.width - 200,
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Container(
+                                      height: 44,
+                                      width: 150,
+                                      decoration: BoxDecoration(
+                                        color: Color(0xff840233),
+                                        borderRadius:
+                                            BorderRadius.circular(10.0),
+                                        border: Border.all(
+                                          color: Color(0xff840233),
+                                        ),
+                                      ),
+                                      child: SizedBox(
+                                        width:
+                                            double.maxFinite, // <-- Your width
+                                        height: 50,
+                                        child: ElevatedButton(
+                                          child: const Text(
+                                            'Edit Profile',
+                                            style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold),
+                                          ),
+                                          onPressed: () async {
+                                            _editedProfile =
+                                                await Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) =>
+                                                    ProfileEdit(
+                                                        data: _userData),
+                                              ),
+                                            );
+
+                                            if (_editedProfile == null) {
+                                              callSession();
+                                            } else {
+                                              callSession();
+                                            }
+                                          },
+                                          style: ElevatedButton.styleFrom(
+                                            primary: Colors.transparent,
+                                            shadowColor: Colors.transparent,
+                                          ),
+                                        ),
+                                      ),
                                     ),
-                                    onPressed: () async {
-                                      _editedProfile = await Navigator.push(
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) =>
-                                              ProfileEdit(data: _userData),
+                                              ProfileSettings(),
                                         ),
                                       );
-
-                                      if (_editedProfile == null) {
-                                        callSession();
-                                      } else {
-                                        callSession();
-                                      }
                                     },
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Colors.transparent,
-                                      shadowColor: Colors.transparent,
+                                    icon: Icon(
+                                      Icons.settings,
                                     ),
-                                  ),
-                                ),
+                                  )
+                                ],
                               ),
                             ),
-                            IconButton(
-                              onPressed: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => ProfileSettings(),
-                                  ),
-                                );
-                              },
-                              icon: Icon(
-                                Icons.settings,
-                              ),
-                            )
                           ],
                         ),
-                      ),
-                    ],
-                  ),
-                ],
+                      ],
+                    ),
+                    // ABOUT
+                    // ABOUT
+                    Container(
+                      alignment: Alignment.centerLeft,
+                      padding: EdgeInsets.only(bottom: 20, top: 10),
+                      margin: EdgeInsets.only(left: 10),
+                      child: Text(_userData['profileBio']),
+                    ),
+                  ],
+                ),
               ),
-              // ABOUT
-              // ABOUT
-              Container(
-                alignment: Alignment.centerLeft,
-                padding: EdgeInsets.only(bottom: 20, top: 10),
-                margin: EdgeInsets.only(left: 10),
-                child: Text(_userData['profileBio']),
-              ),
+
               // NAVIGATION CARD
               // NAVIGATION CARD
               // NAVIGATION CARD

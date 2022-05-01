@@ -1,4 +1,4 @@
-import 'package:camonta/screen/private/layout_ordering_process/checkout_details.dart';
+import 'package:camonta/screen/private/layouts/layout_ordering_process/checkout_details.dart';
 import 'package:flutter/material.dart';
 
 class Cart extends StatefulWidget {
@@ -32,19 +32,8 @@ class _CartState extends State<Cart> {
                 child: Row(
                   children: [
                     Text(
-                      'Source:',
+                      'From: ',
                       style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    Container(
-                      height: 45,
-                      margin: EdgeInsets.only(left: 10, right: 4),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(120),
-                        child: Image.asset(
-                          'assets/default_dp.png',
-                          fit: BoxFit.cover,
-                        ),
-                      ),
                     ),
                     Text('@mariam_stores'),
                   ],
@@ -117,21 +106,80 @@ class _CartState extends State<Cart> {
                 child: Column(
                   children: _chartItems.map((e) {
                     return Container(
-                      child: Card(
-                        child: Padding(
-                          padding: EdgeInsets.all(5),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                flex: 1,
-                                child: Container(
-                                  // padding: EdgeInsets.all(10),
-                                  color: Colors.blue,
-                                  height: 100,
+                      child: Padding(
+                        padding: EdgeInsets.all(9),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              flex: 1,
+                              child: Container(
+                                padding: EdgeInsets.all(5),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(23.0),
                                 ),
-                              )
-                            ],
-                          ),
+                                height: 100,
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      child: Row(
+                                        children: [
+                                          Container(
+                                            height: 90,
+                                            width: 90,
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(23.0),
+                                              image: DecorationImage(
+                                                  image: AssetImage(
+                                                      'assets/default_dp.png'),
+                                                  fit: BoxFit.cover),
+                                            ),
+                                          ),
+                                          Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  'Sweet Pancakes',
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      color: Colors.black,
+                                                      fontSize: 18),
+                                                ),
+                                              ),
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  'Price: 120 Points',
+                                                  style: TextStyle(
+                                                      color: Colors.black54),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    IconButton(
+                                      onPressed: () {},
+                                      icon: Icon(
+                                        Icons.delete_forever,
+                                        color: Colors.black,
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )
+                          ],
                         ),
                       ),
                     );

@@ -104,7 +104,7 @@ class _HomeState extends State<Home> {
               gradient: LinearGradient(
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
-                colors: <Color>[Color(0xff9F033E), Color(0xff5A0324)],
+                colors: <Color>[Color(0xff9F033E), Color(0xff71012C)],
               ),
             ),
           ),
@@ -133,7 +133,7 @@ class _HomeState extends State<Home> {
           // color: Color(0xff454545),
           color: Color(0xff222127),
           // color: navigationIndex == 0 ? Colors.red : Colors.black,
-          buttonBackgroundColor: Color(0xffBF084D),
+          buttonBackgroundColor: Color(0xff9F033E),
           backgroundColor: Colors.transparent,
           animationCurve: Curves.easeInOut,
           animationDuration: Duration(milliseconds: 200),

@@ -53,42 +53,30 @@ class _ExploreState extends State<Explore> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
+          color: Color(0xfffafafa),
           child: Column(
             children: [
-              // Chefs
-
               Container(
                 padding: const EdgeInsets.only(left: 8.0, right: 8, top: 15),
                 child: TextFormField(
-                  decoration: const InputDecoration(
-                    // labelText: 'Email Address',
+                  decoration: InputDecoration(
                     prefixIcon: Icon(Icons.search),
                     suffixIcon: Icon(Icons.sort_rounded),
                     hintText: "Search Meal",
                     fillColor: Colors.white,
                     filled: true,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(16.0),
-                      ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Color(0xffE3E2E2)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: const BorderSide(color: Colors.grey),
                     ),
                   ),
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Enter a valid Email';
-                    }
-
-                    if (!RegExp(
-                            r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                        .hasMatch(value)) {
-                      return 'Please enter a valid phone number';
-                    }
-                  },
-                  onSaved: (value) {
-                    // _emailAddress = value!;
-                  },
                 ),
               ),
+
               SizedBox(height: 20),
               // popular
               // Container(
@@ -108,11 +96,29 @@ class _ExploreState extends State<Explore> {
                   children: [
                     Container(
                       // width: double.maxFinite,
+                      padding: EdgeInsets.only(left: 4, right: 4, bottom: 4),
                       child: TabBar(
-                        labelColor: Colors.black,
+                        indicator: BoxDecoration(
+                          borderRadius: BorderRadius.circular(
+                            10.0,
+                          ),
+                          border:
+                              Border.all(width: 1, color: Color(0xffB6B6B6)),
+                          // color: Colors.white,
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: <Color>[
+                              Color(0xffF0EFEF),
+                              Color(0xffDCDBDB)
+                            ],
+                          ),
+                        ),
                         labelStyle: TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
+                        labelColor: Colors.black,
+                        unselectedLabelColor: Colors.black,
                         unselectedLabelStyle: TextStyle(
                           fontWeight: FontWeight.normal,
                         ),
