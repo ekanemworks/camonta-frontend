@@ -25,7 +25,7 @@ class _AppbarMeState extends State<AppbarMe> {
             borderRadius: BorderRadius.circular(
               10.0,
             ),
-            border: Border.all(width: 1, color: Color(0xff5A0223)),
+            border: Border.all(width: 1, color: Color(0xffB80247)),
             // color: Colors.white,
             gradient: LinearGradient(
               begin: Alignment.topCenter,

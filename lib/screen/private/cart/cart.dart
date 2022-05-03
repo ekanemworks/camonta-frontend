@@ -33,7 +33,8 @@ class _CartState extends State<Cart> {
                   children: [
                     Text(
                       'From: ',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
                     ),
                     Text('@mariam_stores'),
                   ],
@@ -47,10 +48,28 @@ class _CartState extends State<Cart> {
                       children: [
                         Text(
                           'Sub-total:',
-                          style: TextStyle(fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14,
+                              color: Color(0xff555555)),
                         ),
                         SizedBox(width: 10),
-                        Text('₦ 1,100'),
+                        Container(
+                          padding: EdgeInsets.only(
+                              top: 5, bottom: 5, left: 8, right: 8),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Color(0xff0C30B0),
+                          ),
+                          child: Text(
+                            '₦ 1,100',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -58,8 +77,12 @@ class _CartState extends State<Cart> {
                     height: 44,
                     width: 150,
                     decoration: BoxDecoration(
-                      color: Color(0xffC50303),
-                      borderRadius: BorderRadius.circular(23.0),
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: <Color>[Color(0xffC9024D), Color(0xffAA0040)],
+                      ),
+                      borderRadius: BorderRadius.circular(9.0),
                       border: Border.all(
                         color: Color(0xffC50303),
                       ),
@@ -78,8 +101,6 @@ class _CartState extends State<Cart> {
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold),
                             ),
-                            SizedBox(width: 5),
-                            Icon(Icons.arrow_right_alt)
                           ],
                         ),
                         onPressed: () {
@@ -103,7 +124,8 @@ class _CartState extends State<Cart> {
                 height: 10,
               ),
               Container(
-                child: Column(
+                height: MediaQuery.of(context).size.height - 300,
+                child: ListView(
                   children: _chartItems.map((e) {
                     return Container(
                       child: Padding(

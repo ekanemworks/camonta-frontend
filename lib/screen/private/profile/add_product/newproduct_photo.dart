@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class NewProductPhoto extends StatefulWidget {
+  Map newItemInfo;
+  NewProductPhoto({Key? key, required this.newItemInfo}) : super(key: key);
+
   @override
   _NewProductPhotoState createState() => _NewProductPhotoState();
 }
