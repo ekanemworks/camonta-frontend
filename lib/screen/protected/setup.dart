@@ -7,6 +7,12 @@ import 'package:camonta/services/http_service.dart';
 import 'package:camonta/services/session_management.dart';
 import 'package:flutter/material.dart';
 
+import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'dart:async';
+
 class SetupAccount extends StatefulWidget {
   Map signupData1;
   SetupAccount({Key? key, required this.signupData1}) : super(key: key);
@@ -18,13 +24,14 @@ class SetupAccount extends StatefulWidget {
 class _SetupAccountState extends State<SetupAccount> {
   final HttpService httpService = HttpService();
   final SessionManagement sessionMgt = SessionManagement();
+  File? _image;
+  String base64Image = '';
 
-  late String _edit_profilephoto;
   late String _profileName;
   late String _profileUsername;
-  String _profilePhoto = '';
   late String _profileBio;
   late String _password;
+  String _profilePhoto = '';
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   Map _mapdata = {};
 
@@ -56,6 +63,53 @@ class _SetupAccountState extends State<SetupAccount> {
         );
   }
 
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+
+      final imageTemporary = File(image.path);
+      setState(() {
+        _image = imageTemporary;
+      });
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
+    }
+  }
+
+  uploadFromPage(userid) {
+    http
+        .post(
+      Uri.parse(httpService.serverAPI + 'updateProfilePhoto'),
+      headers: {"Content-Type": "application/json"},
+      body: json.encode({"image": base64Image, "userid": userid}),
+    )
+        .then((value) {
+      var mainResponse = json.decode(value.body);
+
+      if (value.statusCode == 200) {
+        if (mainResponse['status'] == 'ok') {
+          sessionMgt.updateSession(
+              'profilePhoto', mainResponse['body']['imagePathOnDB']);
+
+          // FOR NORMAL ACCOUNT
+          // FOR NORMAL ACCOUNT
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Home(),
+            ),
+          );
+        } else {
+          _showToast(context, mainResponse['message']);
+        }
+      } else {
+        print('error');
+        _showToast(context, mainResponse['message']);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,6 +117,15 @@ class _SetupAccountState extends State<SetupAccount> {
         foregroundColor: Colors.black,
         backgroundColor: Colors.white, // 1
         elevation: 0,
+        actions: [
+          OutlinedButton(
+            onPressed: () {},
+            child: const Text(
+              'Upload',
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+            ),
+          )
+        ],
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -77,31 +140,54 @@ class _SetupAccountState extends State<SetupAccount> {
                 height: 120,
                 margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                 // color: Colors.purple,
-                // child: Image.asset('assets/default.png'),
-
                 child: Stack(
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(120),
-                      child: Image.asset(
-                        'assets/default_dp.png',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                    _image == null
+                        ? Container(
+                            decoration: const BoxDecoration(
+                              // in container if you want to show a background image you need box decoration
+                              image: DecorationImage(
+                                image: AssetImage('assets/default_dp.png'),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          )
+                        : ClipRRect(
+                            borderRadius: BorderRadius.circular(120),
+                            child: Image.file(
+                              _image!,
+                              fit: BoxFit.cover,
+                              height: 120.0,
+                              width: 120.0,
+                            ),
+                          ),
                     Positioned(
                       bottom: 0.0,
                       right: 5.0,
-                      child: Container(
-                        height: 30,
-                        width: 30,
-                        child: Icon(
-                          Icons.camera_alt,
-                          color: Colors.white,
-                          size: 15,
-                        ),
-                        decoration: BoxDecoration(
-                          color: Colors.green,
-                          shape: BoxShape.circle,
+                      child: InkWell(
+                        onTap: () {
+                          pickImage();
+                        },
+                        child: Container(
+                          height: 40,
+                          width: 40,
+                          child: Icon(
+                            Icons.camera_alt,
+                            color: Colors.white,
+                            size: 18,
+                          ),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: <Color>[
+                                Color(0xff0ED50C),
+                                Color(0xff078307)
+                              ],
+                            ),
+                            border: Border.all(width: 1, color: Colors.grey),
+                            shape: BoxShape.circle,
+                          ),
                         ),
                       ),
                     )
@@ -186,8 +272,15 @@ class _SetupAccountState extends State<SetupAccount> {
                       const SizedBox(height: 20),
                       Container(
                         decoration: BoxDecoration(
-                          color: Color(0xffC50303),
-                          borderRadius: BorderRadius.circular(30.0),
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: <Color>[
+                              Color(0xffC9024D),
+                              Color(0xffAA0040)
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(7.0),
                         ),
                         child: SizedBox(
                           width: 190, // <-- Your width
@@ -271,18 +364,30 @@ class _SetupAccountState extends State<SetupAccount> {
                                                   ['profilePoints'],
                                             }),
 
-                                            // FOR NORMAL ACCOUNT
-                                            // FOR NORMAL ACCOUNT
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(
-                                                builder: (context) => Home(),
-                                              ),
-                                            )
+                                            // RECIEVING VALUES FROM SERVER RESPONSE TO USE FOR IMAGE UPLOAD
+                                            // RECIEVING VALUES FROM SERVER RESPONSE TO USE FOR IMAGE UPLOAD
+                                            if (_image != null)
+                                              {
+                                                base64Image = base64Encode(
+                                                    _image!.readAsBytesSync()),
+                                                uploadFromPage(
+                                                    value['body']['id']),
+                                              }
+                                            else
+                                              {
+                                                // FOR NORMAL ACCOUNT
+                                                // FOR NORMAL ACCOUNT
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        Home(),
+                                                  ),
+                                                )
+                                              }
                                           }
                                         else
                                           {
-                                            print('sas'),
                                             _showToast(
                                                 context, value['message'])
                                           }
@@ -325,6 +430,5 @@ class _SetupAccountState extends State<SetupAccount> {
             label: 'Close', onPressed: scaffold.hideCurrentSnackBar),
       ),
     );
-    print(context);
   }
 }

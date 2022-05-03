@@ -122,8 +122,15 @@ class _SignUpState extends State<SignUp> {
                             const SizedBox(height: 20),
                             Container(
                               decoration: BoxDecoration(
-                                color: Color(0xffC50303),
-                                borderRadius: BorderRadius.circular(30.0),
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: <Color>[
+                                    Color(0xffC9024D),
+                                    Color(0xffAA0040)
+                                  ],
+                                ),
+                                borderRadius: BorderRadius.circular(7.0),
                               ),
                               child: SizedBox(
                                 width: 120, // <-- Your width
