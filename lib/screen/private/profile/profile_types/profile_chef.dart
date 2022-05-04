@@ -176,7 +176,7 @@ class _ProfileChefState extends State<ProfileChef> {
                                         Padding(
                                           padding: EdgeInsets.all(3.0),
                                           child: Text(
-                                            'Products',
+                                            'Meals',
                                             style: TextStyle(
                                               fontSize: 13,
                                               color: Colors.grey,

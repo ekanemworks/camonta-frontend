@@ -1,3 +1,4 @@
+import 'package:camonta/services/http_service.dart';
 import 'package:flutter/material.dart';
 
 class NewProductPhoto extends StatefulWidget {
@@ -9,6 +10,19 @@ class NewProductPhoto extends StatefulWidget {
 }
 
 class _NewProductPhotoState extends State<NewProductPhoto> {
+  final HttpService httpService = HttpService();
+  Map _newItemInfo = {};
+
+  @override
+  void initState() {
+    _newItemInfo = widget.newItemInfo;
+    super.initState();
+  }
+
+  _uploadNewItemInfo(itemdata) {
+    httpService.signupAPIfunction(itemdata).then((value) async => {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,6 +40,8 @@ class _NewProductPhotoState extends State<NewProductPhoto> {
             child: OutlinedButton(
               onPressed: () {
                 openConfirmationDialog(context);
+
+                _uploadNewItemInfo(_newItemInfo);
               },
               child: Text(
                 'Upload',
@@ -80,16 +96,16 @@ class _NewProductPhotoState extends State<NewProductPhoto> {
               margin: EdgeInsets.only(bottom: 50),
               // bottom: 0
               child: Container(
-                height: 50,
-                // color: Colors.grey,
+                height: 70,
+                color: Colors.grey,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    FloatingActionButton(
-                      backgroundColor: Colors.black,
-                      onPressed: () {},
-                      child: Icon(
-                        Icons.add_a_photo,
+                    SizedBox(
+                      child: FloatingActionButton(
+                        backgroundColor: Colors.black,
+                        onPressed: () {},
+                        child: Icon(Icons.camera_alt),
                       ),
                     ),
                   ],

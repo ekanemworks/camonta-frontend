@@ -40,6 +40,14 @@ class _NewProductInfoState extends State<NewProductInfo> {
     'Fried plantain',
     'MoiMoi',
     'Salad',
+    'Pizza',
+    'Burger',
+    'Hot dog',
+    'Kebab',
+    'Doughnut',
+    'Burrito',
+    'French fries',
+    'Taco'
   ]; // List of items to show in dropdownlist
 
   late String _caption;
@@ -83,6 +91,12 @@ class _NewProductInfoState extends State<NewProductInfo> {
                         padding: EdgeInsets.only(top: 10),
                         child: TextFormField(
                           // initialValue: _edit_fullname,
+
+                          keyboardType: TextInputType.multiline,
+                          textInputAction: TextInputAction.newline,
+                          minLines: 2,
+                          maxLines: 3,
+                          maxLength: 50,
                           decoration:
                               const InputDecoration(labelText: 'Caption'),
                           validator: (value) {
@@ -97,78 +111,99 @@ class _NewProductInfoState extends State<NewProductInfo> {
                       ),
 
                       // ITEMS
-                      Padding(
-                        padding: EdgeInsets.only(top: 18),
-                        child: DropdownButton(
-                          icon: Icon(Icons.arrow_circle_down_outlined),
-                          value: _mealItemHolder,
-                          isExpanded: true,
-                          onChanged: (dynamic value) {
-                            setState(() {
-                              _mealItemHolder = value!;
+                      Container(
+                        padding: EdgeInsets.only(
+                            top: 7, bottom: 4, left: 10, right: 10),
+                        margin: EdgeInsets.only(top: 20),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          border: Border.all(color: Colors.black54),
+                        ),
+                        child: DropdownButtonHideUnderline(
+                          child: DropdownButton(
+                            icon: Icon(Icons.arrow_circle_down_outlined),
+                            value: _mealItemHolder,
+                            isExpanded: true,
+                            onChanged: (dynamic value) {
+                              setState(() {
+                                _mealItemHolder = value!;
 
-                              if (_mealItemHolder == 'Ewa Agoyin' ||
-                                  _mealItemHolder == 'Fried rice' ||
-                                  _mealItemHolder == 'Jollof rice' ||
-                                  _mealItemHolder == 'White rice' ||
-                                  _mealItemHolder == 'Ofada rice') {
-                                setState(() {
-                                  _mealCategoryHolder = 'Grains';
-                                });
-                              } else if (_mealItemHolder == 'Macaroni' ||
-                                  _mealItemHolder == 'Spaghetti') {
-                                setState(() {
-                                  _mealCategoryHolder = 'Pasta';
-                                });
-                              } else if (_mealItemHolder == 'Eba' ||
-                                  _mealItemHolder == 'Amala' ||
-                                  _mealItemHolder == 'Fufu' ||
-                                  _mealItemHolder == 'Pounded Yam' ||
-                                  _mealItemHolder == 'Semolina | Semovita') {
-                                setState(() {
-                                  _mealCategoryHolder = 'Swallow';
-                                });
-                              } else if (_mealItemHolder == 'Beef' ||
-                                  _mealItemHolder == 'Chicken' ||
-                                  _mealItemHolder == 'Fish' ||
-                                  _mealItemHolder ==
-                                      'Grilled foods | Barbecue') {
-                                setState(() {
-                                  _mealCategoryHolder = 'Meats';
-                                });
-                              } else if (_mealItemHolder == 'Beans porridge' ||
-                                  _mealItemHolder == 'Plantain porridge' ||
-                                  _mealItemHolder == 'Potato porridge' ||
-                                  _mealItemHolder == 'Yam porridge') {
-                                setState(() {
-                                  _mealCategoryHolder = 'Porridge';
-                                });
-                              } else if (_mealItemHolder == 'Dodo' ||
-                                  _mealItemHolder == 'Fried plantain' ||
-                                  _mealItemHolder == 'MoiMoi' ||
-                                  _mealItemHolder == 'Salad') {
-                                setState(() {
-                                  _mealCategoryHolder = 'Toppings';
-                                });
-                              } else {
-                                setState(() {
-                                  _mealCategoryHolder = 'Soup';
-                                });
-                              }
-                            });
-                          },
-                          items: _mealItem.map((items) {
-                            return DropdownMenuItem(
-                              value: items,
-                              child: Text(items),
-                            );
-                          }).toList(),
+                                if (_mealItemHolder == 'Ewa Agoyin' ||
+                                    _mealItemHolder == 'Fried rice' ||
+                                    _mealItemHolder == 'Jollof rice' ||
+                                    _mealItemHolder == 'White rice' ||
+                                    _mealItemHolder == 'Ofada rice') {
+                                  setState(() {
+                                    _mealCategoryHolder = 'Grains';
+                                  });
+                                } else if (_mealItemHolder == 'Macaroni' ||
+                                    _mealItemHolder == 'Spaghetti') {
+                                  setState(() {
+                                    _mealCategoryHolder = 'Pasta';
+                                  });
+                                } else if (_mealItemHolder == 'Eba' ||
+                                    _mealItemHolder == 'Amala' ||
+                                    _mealItemHolder == 'Fufu' ||
+                                    _mealItemHolder == 'Pounded Yam' ||
+                                    _mealItemHolder == 'Semolina | Semovita') {
+                                  setState(() {
+                                    _mealCategoryHolder = 'Swallow';
+                                  });
+                                } else if (_mealItemHolder == 'Beef' ||
+                                    _mealItemHolder == 'Chicken' ||
+                                    _mealItemHolder == 'Fish' ||
+                                    _mealItemHolder ==
+                                        'Grilled foods | Barbecue') {
+                                  setState(() {
+                                    _mealCategoryHolder = 'Meats';
+                                  });
+                                } else if (_mealItemHolder ==
+                                        'Beans porridge' ||
+                                    _mealItemHolder == 'Plantain porridge' ||
+                                    _mealItemHolder == 'Potato porridge' ||
+                                    _mealItemHolder == 'Yam porridge') {
+                                  setState(() {
+                                    _mealCategoryHolder = 'Porridge';
+                                  });
+                                } else if (_mealItemHolder == 'Dodo' ||
+                                    _mealItemHolder == 'Fried plantain' ||
+                                    _mealItemHolder == 'MoiMoi' ||
+                                    _mealItemHolder == 'Salad') {
+                                  setState(() {
+                                    _mealCategoryHolder = 'Toppings';
+                                  });
+                                } else if (_mealItemHolder == 'Pizza' ||
+                                    _mealItemHolder == 'Burger' ||
+                                    _mealItemHolder == 'Hot dog' ||
+                                    _mealItemHolder == 'Doughnut' ||
+                                    _mealItemHolder == 'Burrito' ||
+                                    _mealItemHolder == 'French fries' ||
+                                    _mealItemHolder == 'Taco' ||
+                                    _mealItemHolder == 'Kebab') {
+                                  setState(() {
+                                    _mealCategoryHolder = 'Fast Food';
+                                  });
+                                } else {
+                                  setState(() {
+                                    _mealCategoryHolder = 'Soup';
+                                  });
+                                }
+                              });
+                            },
+                            items: _mealItem.map((items) {
+                              return DropdownMenuItem(
+                                value: items,
+                                child: Text(items),
+                              );
+                            }).toList(),
+                          ),
                         ),
                       ),
 
                       Container(
                         // color: Colors.red,
                         width: double.maxFinite,
+                        padding: EdgeInsets.only(top: 15),
                         child: RichText(
                           text: TextSpan(
                             style: TextStyle(fontSize: 13),
