@@ -1,29 +1,28 @@
-import 'package:camonta/screen/private/layouts/layout_open_item/profile_me_open_item.dart';
 import 'package:flutter/material.dart';
 
-class ProfileChefItemGridView extends StatefulWidget {
-  List myProducts;
-  ProfileChefItemGridView({Key? key, required this.myProducts})
+class ProfileCustomerItemOrders extends StatefulWidget {
+  List myOrders;
+  ProfileCustomerItemOrders({Key? key, required this.myOrders})
       : super(key: key);
 
   @override
-  _ProfileChefItemGridViewState createState() =>
-      _ProfileChefItemGridViewState();
+  _ProfileCustomerItemOrdersState createState() =>
+      _ProfileCustomerItemOrdersState();
 }
 
-class _ProfileChefItemGridViewState extends State<ProfileChefItemGridView> {
-  List _myProducts = [];
+class _ProfileCustomerItemOrdersState extends State<ProfileCustomerItemOrders> {
+  List _myOrders = [];
 
   @override
   void initState() {
-    _myProducts = widget.myProducts;
+    _myOrders = widget.myOrders;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: _myProducts.isNotEmpty
+      child: _myOrders.isNotEmpty
           ? Container(
               width: MediaQuery.of(context).size.width - 10,
               height: MediaQuery.of(context).size.height,
@@ -34,22 +33,15 @@ class _ProfileChefItemGridViewState extends State<ProfileChefItemGridView> {
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
                     childAspectRatio: 2 / 3),
-                children: _myProducts.map((e) {
+                children: _myOrders.map((e) {
                   return listItem2(e);
                 }).toList(),
               ),
             )
           : Container(
               height: MediaQuery.of(context).size.width,
-              // shape: RoundedRectangleBorder(
-              //   borderRadius: BorderRadius.circular(10),
-              // ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-              ),
               child: Center(
                 child: Container(
-                  // color: Colors.white,
                   height: 140,
                   child: Column(
                     children: [
@@ -57,13 +49,13 @@ class _ProfileChefItemGridViewState extends State<ProfileChefItemGridView> {
                         height: 90,
                         width: 90,
                         child: Icon(
-                          Icons.restaurant,
+                          Icons.shopping_bag,
                           size: 50,
                         ),
                       ),
                       SizedBox(height: 10),
                       Text(
-                        'No Meals Added Yet',
+                        'No Order Is Pending',
                         style: TextStyle(
                           fontWeight: FontWeight.normal,
                           fontSize: 20,
@@ -79,14 +71,7 @@ class _ProfileChefItemGridViewState extends State<ProfileChefItemGridView> {
 
   Widget listItem2(_value) {
     return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ProfileMeOpenItem(),
-          ),
-        );
-      },
+      onTap: () {},
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),

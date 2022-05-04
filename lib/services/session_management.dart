@@ -5,6 +5,7 @@ class SessionManagement {
   checkSession() {}
 
   setSession(sessionData) async {
+    // print(sessionData);
     sessionData = json.encode(sessionData);
 
     SharedPreferences _prefs = await SharedPreferences.getInstance();
@@ -55,9 +56,12 @@ class SessionManagement {
       // var  = ;
       // print(json.decode(_prefs.getString('sessionGroupData')!));
       Map sessionData = json.decode(_prefs.getString('sessionGroupData')!);
+      // print(sessionData);
+      // print('END OF FIRST');
       sessionData[behavior] = bvalue;
 
       String stringsessionData = json.encode(sessionData);
+      // print(stringsessionData);
       _prefs.setString('sessionGroupData', stringsessionData);
       return 'complete';
     }

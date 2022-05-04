@@ -129,28 +129,27 @@ class _ProfileChefState extends State<ProfileChef> {
                   children: [
                     Row(
                       children: [
+                        // PROFILE DP CONTAINER
                         Container(
                           width: 120,
                           height: 120,
                           margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                           // color: Colors.purple,
-                          child: Image.asset('assets/default_dp.png'),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 1,
-                              color: Color(0xfff2f2f2),
-                            ),
-                            // boxShadow:
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(120),
+                            child: _userData['profilePhoto'] == ''
+                                ? Image.asset(
+                                    'assets/default_dp.png',
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.network(
+                                    httpService.serverAPI +
+                                        _userData['profilePhoto'],
+                                    fit: BoxFit.cover,
+                                  ),
                           ),
-
-                          // child: ClipRRect(
-                          //   borderRadius: BorderRadius.circular(120),
-                          //   child: Image.asset(
-                          //     'assets/default_dp.png',
-                          //     fit: BoxFit.cover,
-                          //   ),
-                          // ),
                         ),
+                        // END: PROFILE DP CONTAINER
                         Container(
                           padding: EdgeInsets.only(left: 10, right: 10),
                           child: Column(
@@ -311,7 +310,8 @@ class _ProfileChefState extends State<ProfileChef> {
                       margin: EdgeInsets.only(left: 10),
                       child: Text(
                         _userData['profileName'],
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 17),
                       ),
                     ),
                     // BIO
@@ -341,7 +341,7 @@ class _ProfileChefState extends State<ProfileChef> {
                     // mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
                       Expanded(
-                        child: InkWell(
+                        child: GestureDetector(
                           onTap: () {
                             setState(() {
                               _itemGridView = true;
@@ -359,7 +359,7 @@ class _ProfileChefState extends State<ProfileChef> {
                         ),
                       ),
                       Expanded(
-                        child: InkWell(
+                        child: GestureDetector(
                           onTap: () {
                             setState(() {
                               _itemGridView = false;
