@@ -27,7 +27,7 @@ class _ProfileChefState extends State<ProfileChef> {
   Map _userData = {
     'id': 0,
     'profileType': '',
-    'session': '',
+    'profileSession': '',
     'profileName': '',
     'profileUsername': '',
     'profilePhoto': '',
@@ -35,6 +35,8 @@ class _ProfileChefState extends State<ProfileChef> {
     'profileEmail': '',
     'profileEmailStatus': '',
     'password': '',
+    'profileCountry': '',
+    'profileState': '',
     'registrationDate': '',
     'notification': '',
     'myProductCount': '',
@@ -60,10 +62,28 @@ class _ProfileChefState extends State<ProfileChef> {
             setState(() {
               // decode
               _userData = json.decode(value);
+
+              var owneridMap = {
+                'productOwnerid': _userData['id'],
+                'profileSession': _userData['profileSession']
+              };
+              _callProducts(owneridMap);
+
               // print(_userData);
             }),
           },
         );
+  }
+
+  _callProducts(owneridMap) {
+    httpService.getMyProductsAPIfunction(owneridMap).then((value) async => {
+          setState(() {
+            // print('called 2');
+            if (value['status'] == 'ok') {
+              // _productStateList = json.decode(value['body']['stateList']);
+            }
+          })
+        });
   }
 
   List _baybn_members_general = [

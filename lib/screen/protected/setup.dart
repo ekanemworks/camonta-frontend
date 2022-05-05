@@ -314,6 +314,7 @@ class _SetupAccountState extends State<SetupAccount> {
                                 'profilePhoto': _profilePhoto,
                                 'profileBio': _profileBio,
                                 'password': _password,
+                                'profileCountry': _mapdata['country'],
                               };
 
                               httpService
@@ -343,6 +344,12 @@ class _SetupAccountState extends State<SetupAccount> {
                                                       ['profileEmailStatus'],
                                               'password': value['body']
                                                   ['password'],
+                                              'profileCountry': value['body']
+                                                  ['profileCountry'],
+                                              'profileState': value['body']
+                                                  ['profileState'],
+                                              'profileRegion': value['body']
+                                                  ['profileRegion'],
                                               'registrationDate': value['body']
                                                   ['registrationDate'],
                                               'notification': json.decode(

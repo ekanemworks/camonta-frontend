@@ -94,4 +94,83 @@ class HttpService {
       return {'status': 'error', 'message': 'network error / server error'};
     }
   }
+
+  // ADD PRODUCT
+  // ADD PRODUCT
+  // ADD PRODUCT
+  Future addProductAPIfunction(data) async {
+    Response response;
+    try {
+      print('inside API function');
+      response = await post(
+        Uri.parse(serverAPI + 'api1.0/addproduct/addProductInformation'),
+        headers: {
+          "Content-Type": "application/json",
+          "uikey": uikey,
+          "session": data['profileSession']
+        },
+        body: json.encode(data),
+      );
+
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        return {'status': 'error', 'message': 'network / error 500'};
+      }
+    } catch (e) {
+      return {'status': 'error', 'message': 'network error / server error'};
+    }
+  }
+
+  // GET TERRITORIES
+  // GET TERRITORIES
+  // GET TERRITORIES
+  Future getTerritoriesAPIfunction(data) async {
+    Response response;
+    try {
+      response = await post(
+        Uri.parse(serverAPI + 'api1.0/appbase/getTerritories'),
+        headers: {
+          "Content-Type": "application/json",
+          "uikey": uikey,
+          "session": data['profileSession']
+        },
+        body: json.encode(data),
+      );
+
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        return {'status': 'error', 'message': 'network / error 500'};
+      }
+    } catch (e) {
+      return {'status': 'error', 'message': 'network error / server error'};
+    }
+  }
+
+  // GET MY PRODUCTS
+  // GET MY PRODUCTS
+  // GET MY PRODUCTS
+  Future getMyProductsAPIfunction(data) async {
+    Response response;
+    try {
+      response = await post(
+        Uri.parse(serverAPI + 'api1.0/getproducts/getMyProducts'),
+        headers: {
+          "Content-Type": "application/json",
+          "uikey": uikey,
+          "session": data['profileSession']
+        },
+        body: json.encode(data),
+      );
+
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        return {'status': 'error', 'message': 'network / error 500'};
+      }
+    } catch (e) {
+      return {'status': 'error', 'message': 'network error / server error'};
+    }
+  }
 }

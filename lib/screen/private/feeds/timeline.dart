@@ -54,6 +54,14 @@ class _HomeFeedsState extends State<HomeFeeds> {
               SizedBox(
                 height: 20,
               ),
+              Container(
+                alignment: Alignment.centerLeft,
+                margin: EdgeInsets.only(left: 10, top: 20),
+                child: Text(
+                  'For You',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
               Recommendation(),
             ],
           ),

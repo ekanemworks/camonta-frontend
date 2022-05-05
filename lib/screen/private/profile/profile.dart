@@ -18,7 +18,7 @@ class _ProfileState extends State<Profile> {
   Map _userData = {
     'id': 0,
     'profileType': '',
-    'session': '',
+    'profileSession': '',
     'profileName': '',
     'profileUsername': '',
     'profilePhoto': '',

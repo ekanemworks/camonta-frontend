@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:camonta/services/http_service.dart';
+import 'package:camonta/services/session_management.dart';
 import 'package:flutter/material.dart';
 
 class NewProductPhoto extends StatefulWidget {
@@ -11,16 +14,33 @@ class NewProductPhoto extends StatefulWidget {
 
 class _NewProductPhotoState extends State<NewProductPhoto> {
   final HttpService httpService = HttpService();
+  final SessionManagement sessionMgt = SessionManagement();
   Map _newItemInfo = {};
 
   @override
   void initState() {
     _newItemInfo = widget.newItemInfo;
+
     super.initState();
   }
 
   _uploadNewItemInfo(itemdata) {
-    httpService.signupAPIfunction(itemdata).then((value) async => {});
+    print('call 2');
+
+    httpService.addProductAPIfunction(itemdata).then((value) async => {
+          print('call 3'),
+          if (value['status'] == 'ok')
+            {
+              print('Value inserted'),
+              sessionMgt.updateSession(
+                  'myProductCount', (itemdata['myProductCount'] + 1))
+              // print(itemdata['myProductCount'] + 1)
+            }
+          else
+            {
+              _showToast(context, value['message']),
+            }
+        });
   }
 
   @override
@@ -39,9 +59,30 @@ class _NewProductPhotoState extends State<NewProductPhoto> {
             padding: const EdgeInsets.all(8.0),
             child: OutlinedButton(
               onPressed: () {
-                openConfirmationDialog(context);
-
-                _uploadNewItemInfo(_newItemInfo);
+                print('call 1');
+                // openConfirmationDialog(context);
+                var itemDataMap = {
+                  'productClass': 'regular',
+                  'productType': 'meal',
+                  'productCaption': _newItemInfo['productCaption'],
+                  'productItem': _newItemInfo['productItem'],
+                  'productCategory': _newItemInfo['productCategory'],
+                  'productPreparationtime':
+                      _newItemInfo['productPreparationtime'],
+                  'productPrice': _newItemInfo['productPrice'],
+                  'productCurrency': _newItemInfo['productCurrency'],
+                  'productPhotos': '',
+                  'productOwnerId': _newItemInfo['productOwnerId'],
+                  'productRating': 0,
+                  'productHits': 0,
+                  'productCountry': _newItemInfo['profileCountry'],
+                  'productState': _newItemInfo['profileState'],
+                  'productRegion': _newItemInfo['profileRegion'],
+                  'profileSession': _newItemInfo['profileSession'],
+                  'myProductCount': _newItemInfo['myProductCount']
+                };
+                print(itemDataMap);
+                _uploadNewItemInfo(itemDataMap);
               },
               child: Text(
                 'Upload',
@@ -287,4 +328,15 @@ class _NewProductPhotoState extends State<NewProductPhoto> {
   }
   // END OF UPLOAD SUCCESS DIALOG
   // END OF UPLOAD SUCCESS DIALOG
+
+  void _showToast(BuildContext context, message) {
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        content: Text(message),
+        action: SnackBarAction(
+            label: 'Close', onPressed: scaffold.hideCurrentSnackBar),
+      ),
+    );
+  }
 }

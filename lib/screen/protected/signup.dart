@@ -9,15 +9,26 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String accounttypeDropDownHolder = 'Account Type';
+  String countryDropDownHolder = 'Pick Country';
   late String _profileEmail;
 
-  final List myItems = [
+  final List accountTypeList = [
     'Account Type',
     '',
     'Customer',
     'Chef / Catering',
     'Restaurant',
     'Logistic Company (fee ₦7,000)',
+  ]; // List of items to show in dropdownlist
+
+  final List countryList = [
+    'Pick Country',
+    '',
+    'Nigeria',
+    'Ghana',
+    'Kenya',
+    'South Africa',
+    'Ethiopia',
   ]; // List of items to show in dropdownlist
 
   @override
@@ -110,7 +121,34 @@ class _SignUpState extends State<SignUp> {
                                       accounttypeDropDownHolder = value!;
                                     });
                                   },
-                                  items: myItems.map((items) {
+                                  items: accountTypeList.map((items) {
+                                    return DropdownMenuItem(
+                                      value: items,
+                                      child: Text(items),
+                                    );
+                                  }).toList(),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              padding: EdgeInsets.only(
+                                  top: 10, bottom: 6, left: 20, right: 20),
+                              margin: EdgeInsets.only(top: 20),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                border: Border.all(color: Colors.black54),
+                              ),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton(
+                                  icon: Icon(Icons.arrow_circle_down_outlined),
+                                  value: countryDropDownHolder,
+                                  isExpanded: true,
+                                  onChanged: (dynamic value) {
+                                    setState(() {
+                                      countryDropDownHolder = value!;
+                                    });
+                                  },
+                                  items: countryList.map((items) {
                                     return DropdownMenuItem(
                                       value: items,
                                       child: Text(items),
@@ -157,6 +195,7 @@ class _SignUpState extends State<SignUp> {
                                         'email': _profileEmail,
                                         'accounttype':
                                             accounttypeDropDownHolder,
+                                        'country': countryDropDownHolder
                                       };
 
                                       Navigator.push(
