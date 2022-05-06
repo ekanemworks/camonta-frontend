@@ -20,10 +20,10 @@ class ProfileChef extends StatefulWidget {
 class _ProfileChefState extends State<ProfileChef> {
   final SessionManagement sessionMgt = SessionManagement();
   final HttpService httpService = HttpService();
-  var _editedProfile;
-  List _myProducts = [];
+  var _editedProfile; // to recoil from Editprofile page to reload session for profile page
   bool _itemGridView = true;
-
+  Map _getmyProductRequirementMap = {};
+  int _productOwnerid = 0;
   Map _userData = {
     'id': 0,
     'profileType': '',
@@ -63,27 +63,16 @@ class _ProfileChefState extends State<ProfileChef> {
               // decode
               _userData = json.decode(value);
 
-              var owneridMap = {
+              _getmyProductRequirementMap = {
                 'productOwnerid': _userData['id'],
                 'profileSession': _userData['profileSession']
               };
-              _callProducts(owneridMap);
+              // _productOwnerid = _userData['id'];
 
               // print(_userData);
             }),
           },
         );
-  }
-
-  _callProducts(owneridMap) {
-    httpService.getMyProductsAPIfunction(owneridMap).then((value) async => {
-          setState(() {
-            // print('called 2');
-            if (value['status'] == 'ok') {
-              // _productStateList = json.decode(value['body']['stateList']);
-            }
-          })
-        });
   }
 
   List _baybn_members_general = [
@@ -137,7 +126,9 @@ class _ProfileChefState extends State<ProfileChef> {
       body: SingleChildScrollView(
         child: Container(
           color: Color(0xfff2f2f2),
-          height: MediaQuery.of(context).size.height,
+          margin: EdgeInsets.only(bottom: 500),
+
+          // height: MediaQuery.of(context).size.height,
           padding: EdgeInsets.only(left: 10, right: 10, top: 10),
           child: Column(
             children: [
@@ -437,9 +428,18 @@ class _ProfileChefState extends State<ProfileChef> {
                   ),
                 ),
               ),
-              _itemGridView == false
-                  ? ProfileChefItemListView(myProducts: _myProducts)
-                  : ProfileChefItemGridView(myProducts: _myProducts)
+
+              _getmyProductRequirementMap != {}
+                  ? _itemGridView == false
+                      ? ProfileChefItemListView(
+                          getmyProductRequirementMap:
+                              _getmyProductRequirementMap)
+                      : ProfileChefItemGridView(
+                          getmyProductRequirementMap:
+                              _getmyProductRequirementMap)
+                  : Container(
+                      child: Text('Loading...'),
+                    )
             ],
           ),
         ),

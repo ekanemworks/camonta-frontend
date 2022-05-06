@@ -8,11 +8,6 @@ class Recommendation extends StatefulWidget {
 
 class _RecommendationState extends State<Recommendation> {
   List _baybn_members_general = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
     '',
     '',
     '',
@@ -29,66 +24,43 @@ class _RecommendationState extends State<Recommendation> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Container(
-        child: Column(
-          children: [
-            // Container(
-            //   color: Colors.grey.shade200,
-            //   padding: EdgeInsets.only(),
-            //   height: 230,
-            //   child: CarouselSlider.builder(
-            //     itemCount: 3,
-            //     itemBuilder: (context, index, realIndex) {
-            //       return Container(
-            //         height: 80,
-            //         margin: EdgeInsets.symmetric(horizontal: 12),
-            //         decoration: BoxDecoration(
-            //           borderRadius: BorderRadius.circular(23.0),
-            //           // in container if you want to show a background image you need box decoration
-            //           image: const DecorationImage(
-            //             image: AssetImage('assets/onboarding/chefs.png'),
-            //             fit: BoxFit.cover,
-            //           ),
-            //         ),
-            //         // child: Text('$index'),
-            //       );
-            //     },
-            //     options: CarouselOptions(
-            //       height: 170,
-            //       autoPlay: true,
-            //       enlargeCenterPage: true,
-            //       // enableInfiniteScroll: false,
-            //       autoPlayInterval: Duration(seconds: 10),
-            //     ),
-            //   ),
-            // ),
-            // Container(
-            //   alignment: Alignment.centerLeft,
-            //   child: Text(
-            //     'Recommended',
-            //     style: TextStyle(
-            //       fontSize: 20,
-            //       fontWeight: FontWeight.bold,
-            //     ),
-            //   ),
-            //   padding: EdgeInsets.only(top: 20),
-            // ),
-            Container(
-              // color: Colors.green,
-              width: MediaQuery.of(context).size.width - 10,
-              height: MediaQuery.of(context).size.height,
-              // height: 1000,
-              child: GridView(
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 5,
-                    mainAxisSpacing: 5,
-                    childAspectRatio: 2 / 3),
-                children: _baybn_members_general.map((e) {
-                  return listItem2(e);
-                }).toList(),
-              ),
-            ),
-          ],
+        child: Container(
+          width: MediaQuery.of(context).size.width - 10,
+          height: MediaQuery.of(context).size.height,
+          color: Colors.red,
+          // height: 1000,
+          child: GridView.builder(
+              shrinkWrap: true,
+              physics: const ScrollPhysics(),
+              itemCount: 3,
+              gridDelegate:
+                  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2),
+              itemBuilder: (BuildContext context, int index) {
+                return Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: <Widget>[
+                        Container(
+                            width: double.infinity,
+                            height: 50.0,
+                            color: Colors.grey,
+                            child: Center(
+                              child: Text(
+                                'dsds',
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 20.0),
+                              ),
+                            )),
+                      ],
+                    ),
+                  ),
+                );
+              }),
         ),
       ),
     );

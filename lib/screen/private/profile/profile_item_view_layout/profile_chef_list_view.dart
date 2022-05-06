@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ProfileChefItemListView extends StatefulWidget {
-  List myProducts;
-  ProfileChefItemListView({Key? key, required this.myProducts})
+  Map getmyProductRequirementMap;
+  ProfileChefItemListView({Key? key, required this.getmyProductRequirementMap})
       : super(key: key);
 
   @override
@@ -15,7 +15,6 @@ class _ProfileChefItemListViewState extends State<ProfileChefItemListView> {
 
   @override
   void initState() {
-    _myProducts = widget.myProducts;
     super.initState();
   }
 
