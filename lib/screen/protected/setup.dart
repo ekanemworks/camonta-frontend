@@ -143,13 +143,13 @@ class _SetupAccountState extends State<SetupAccount> {
                 child: Stack(
                   children: [
                     _image == null
-                        ? Container(
-                            decoration: const BoxDecoration(
-                              // in container if you want to show a background image you need box decoration
-                              image: DecorationImage(
-                                image: AssetImage('assets/default_dp.png'),
-                                fit: BoxFit.cover,
-                              ),
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(120),
+                            child: Image.asset(
+                              'assets/default_dp.png',
+                              fit: BoxFit.cover,
+                              height: 120.0,
+                              width: 120.0,
                             ),
                           )
                         : ClipRRect(

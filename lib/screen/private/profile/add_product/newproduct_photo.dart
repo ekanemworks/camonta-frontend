@@ -1,8 +1,14 @@
 import 'dart:convert';
 
+import 'package:camonta/screen/private/home.dart';
 import 'package:camonta/services/http_service.dart';
 import 'package:camonta/services/session_management.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
+import 'dart:io';
+import 'dart:async';
 
 class NewProductPhoto extends StatefulWidget {
   Map newItemInfo;
@@ -16,6 +22,10 @@ class _NewProductPhotoState extends State<NewProductPhoto> {
   final HttpService httpService = HttpService();
   final SessionManagement sessionMgt = SessionManagement();
   Map _newItemInfo = {};
+  File? _imageJumbotron;
+  File? _image;
+  List<File?> _productImages = [];
+  List<String> _base64Images = [];
 
   @override
   void initState() {
@@ -33,8 +43,16 @@ class _NewProductPhotoState extends State<NewProductPhoto> {
             {
               print('Value inserted'),
               sessionMgt.updateSession(
-                  'myProductCount', (itemdata['myProductCount'] + 1))
-              // print(itemdata['myProductCount'] + 1)
+                  'myProductCount', (itemdata['myProductCount'] + 1)),
+              for (var i = 0; i < _productImages.length; i++)
+                {
+                  print(
+                      'Tobe Ekanem is the multi-billionaire founder of CAMONTA'),
+                  _base64Images
+                      .add(base64Encode(_productImages[i]!.readAsBytesSync()))
+                },
+              uploadFromPage(value['productCode'], itemdata['productOwnerId'],
+                  itemdata['myProductCount'] + 1),
             }
           else
             {
@@ -105,6 +123,25 @@ class _NewProductPhotoState extends State<NewProductPhoto> {
                     width: double.maxFinite,
                     height: MediaQuery.of(context).size.width,
                     color: Colors.grey,
+                    child: _imageJumbotron == null
+                        ? Container(
+                            decoration: const BoxDecoration(
+                              // in container if you want to show a background image you need box decoration
+                              image: DecorationImage(
+                                image: AssetImage('assets/product_default.png'),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          )
+                        : ClipRRect(
+                            // borderRadius: BorderRadius.circular(120),
+                            child: Image.file(
+                              _imageJumbotron!,
+                              fit: BoxFit.cover,
+                              height: 120.0,
+                              width: 120.0,
+                            ),
+                          ),
                   ),
                   Container(
                     height: MediaQuery.of(context).size.width,
@@ -116,17 +153,20 @@ class _NewProductPhotoState extends State<NewProductPhoto> {
                         mainAxisSpacing: 2,
                         crossAxisSpacing: 2,
                       ),
-                      children: List.generate(
-                        3,
-                        (index) => Container(
+                      children: _productImages.map((e) {
+                        return Container(
                           color: Colors.grey,
-                          child: Icon(
-                            Icons.touch_app,
-                            size: 30,
-                            color: Colors.yellow[900],
+                          child: ClipRRect(
+                            // borderRadius: BorderRadius.circular(120),
+                            child: Image.file(
+                              e!,
+                              fit: BoxFit.cover,
+                              height: 120.0,
+                              width: 120.0,
+                            ),
                           ),
-                        ),
-                      ),
+                        );
+                      }).toList(),
                     ),
                   )
                 ],
@@ -137,16 +177,21 @@ class _NewProductPhotoState extends State<NewProductPhoto> {
               margin: EdgeInsets.only(bottom: 50),
               // bottom: 0
               child: Container(
-                height: 70,
-                color: Colors.grey,
+                height: 75,
+                // color: Colors.grey,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
                       child: FloatingActionButton(
-                        backgroundColor: Colors.black,
-                        onPressed: () {},
-                        child: Icon(Icons.camera_alt),
+                        backgroundColor: Color(0xffC9024D),
+                        onPressed: () {
+                          pickImage();
+                        },
+                        child: Icon(
+                          Icons.camera_alt,
+                          size: 35,
+                        ),
                       ),
                     ),
                   ],
@@ -338,5 +383,61 @@ class _NewProductPhotoState extends State<NewProductPhoto> {
             label: 'Close', onPressed: scaffold.hideCurrentSnackBar),
       ),
     );
+  }
+
+  // PICK IMAGE FUNCTION: TO PICK PRODUCT IMAGE
+  // PICK IMAGE FUNCTION: TO PICK PRODUCT IMAGE
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+
+      final imageTemporary = File(image.path);
+
+      // checking if the image file variable is empty to assign it for image 1, image 2 and image3
+      setState(() {
+        _imageJumbotron = imageTemporary;
+        _productImages.add(_imageJumbotron);
+      });
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
+    }
+  }
+
+  // UPLOAD IMAGE FUNCTION: TO UPLOAD PRODUCT IMAGE calling http, sending packet of data
+  // UPLOAD IMAGE FUNCTION: TO UPLOAD PRODUCT IMAGE calling http, sending packet of data
+  uploadFromPage(productCode, productOwnerid, myProductCount) {
+    http
+        .post(
+      Uri.parse(httpService.serverAPI + 'uploadProductPhoto'),
+      headers: {"Content-Type": "application/json"},
+      body: json.encode({
+        "imageList": json.encode(_base64Images),
+        "productCode": productCode,
+        "productOwnerid": productOwnerid,
+        "myProductCount": myProductCount
+      }),
+    )
+        .then((value) {
+      var mainResponse = json.decode(value.body);
+
+      if (value.statusCode == 200) {
+        if (mainResponse['status'] == 'ok') {
+          // FOR NORMAL ACCOUNT
+          // FOR NORMAL ACCOUNT
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => Home(),
+            ),
+          );
+        } else {
+          _showToast(context, mainResponse['message']);
+        }
+      } else {
+        print('error');
+        _showToast(context, mainResponse['message']);
+      }
+    });
   }
 }

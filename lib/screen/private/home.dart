@@ -125,15 +125,15 @@ class _HomeState extends State<Home> {
             AppbarMe(),
           ],
         ),
-        body: Container(
-          margin: EdgeInsets.only(bottom: 30),
-          child: screens[navigationIndex],
+        body: IndexedStack(
+          index: navigationIndex,
+          children: <Widget>[...screens],
         ),
         bottomNavigationBar: CurvedNavigationBar(
           // color: Color(0xff454545),
           color: Color(0xff222127),
           // color: navigationIndex == 0 ? Colors.red : Colors.black,
-          buttonBackgroundColor: Color(0xff9F033E),
+          buttonBackgroundColor: Color(0xff71012C),
           backgroundColor: Colors.transparent,
           animationCurve: Curves.easeInOut,
           animationDuration: Duration(milliseconds: 200),

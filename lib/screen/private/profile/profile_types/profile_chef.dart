@@ -376,15 +376,15 @@ class _ProfileChefState extends State<ProfileChef> {
                               _itemGridView = false;
                             });
                           },
-                          child: _itemGridView == true
+                          child: _itemGridView == false
                               ? Icon(
                                   Icons.view_list_rounded,
-                                  color: Color(0xff999999),
+                                  color: Color(0xffB80146),
                                   size: 28,
                                 )
                               : Icon(
                                   Icons.view_list_rounded,
-                                  color: Color(0xffB80146),
+                                  color: Color(0xff999999),
                                   size: 28,
                                 ),
                         ),
@@ -429,17 +429,14 @@ class _ProfileChefState extends State<ProfileChef> {
                 ),
               ),
 
-              _getmyProductRequirementMap != {}
-                  ? _itemGridView == false
-                      ? ProfileChefItemListView(
-                          getmyProductRequirementMap:
-                              _getmyProductRequirementMap)
-                      : ProfileChefItemGridView(
-                          getmyProductRequirementMap:
-                              _getmyProductRequirementMap)
-                  : Container(
-                      child: Text('Loading...'),
-                    )
+              // _getmyProductRequirementMap == {}
+              //     ? Container()
+              //     :
+              _itemGridView == false
+                  ? ProfileChefItemListView(
+                      getmyProductRequirementMap: _getmyProductRequirementMap)
+                  : ProfileChefItemGridView(
+                      getmyProductRequirementMap: _getmyProductRequirementMap)
             ],
           ),
         ),

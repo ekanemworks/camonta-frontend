@@ -18,6 +18,11 @@ class _ProfileChefItemGridViewState extends State<ProfileChefItemGridView> {
 
   @override
   void initState() {
+    // needed for when toggling between views: else it wouldn't load
+    // needed for when toggling between views: else it wouldn't load
+    setState(() {
+      _callProducts(widget.getmyProductRequirementMap);
+    });
     super.initState();
   }
 
@@ -63,39 +68,6 @@ class _ProfileChefItemGridViewState extends State<ProfileChefItemGridView> {
                   return listItem2(e);
                 }).toList(),
               ),
-
-              // child: GridView.builder(
-              //     shrinkWrap: true,
-              //     physics: const ScrollPhysics(),
-              //     itemCount: 3,
-              //     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              //         crossAxisCount: 2),
-              //     itemBuilder: (BuildContext context, int index) {
-              //       return Padding(
-              //         padding: const EdgeInsets.all(10.0),
-              //         child: Container(
-              //           decoration: BoxDecoration(
-              //             borderRadius: BorderRadius.circular(20.0),
-              //           ),
-              //           child: Column(
-              //             mainAxisAlignment: MainAxisAlignment.end,
-              //             children: <Widget>[
-              //               Container(
-              //                   width: double.infinity,
-              //                   height: 50.0,
-              //                   color: Colors.grey,
-              //                   child: Center(
-              //                     child: Text(
-              //                       'dsds',
-              //                       style: TextStyle(
-              //                           color: Colors.white, fontSize: 20.0),
-              //                     ),
-              //                   )),
-              //             ],
-              //           ),
-              //         ),
-              //       );
-              //     }),
             )
           : Container(
               height: MediaQuery.of(context).size.width,

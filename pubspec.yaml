@@ -68,6 +68,7 @@ flutter:
     - assets/logo/mainlogo.png
     - assets/logo/mainlogo2.png
     - assets/default_dp.png
+    - assets/product_default.png
     - assets/addproduct.png
     - assets/placeorder.png
     - assets/paymentchannels/paystack.jpg
