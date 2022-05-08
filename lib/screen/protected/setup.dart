@@ -117,15 +117,6 @@ class _SetupAccountState extends State<SetupAccount> {
         foregroundColor: Colors.black,
         backgroundColor: Colors.white, // 1
         elevation: 0,
-        actions: [
-          OutlinedButton(
-            onPressed: () {},
-            child: const Text(
-              'Upload',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-            ),
-          )
-        ],
       ),
       body: SingleChildScrollView(
         child: Container(

@@ -4,6 +4,12 @@ import 'package:camonta/services/http_service.dart';
 import 'package:camonta/services/session_management.dart';
 import 'package:flutter/material.dart';
 
+import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
+import 'dart:io';
+import 'package:image_picker/image_picker.dart';
+import 'dart:async';
+
 class ProfileEdit extends StatefulWidget {
   Map data;
   ProfileEdit({Key? key, required this.data}) : super(key: key);
@@ -17,10 +23,13 @@ class _ProfileEditState extends State<ProfileEdit> {
   final SessionManagement sessionMgt = SessionManagement();
   final HttpService httpService = HttpService();
 
+  File? _image;
+  String base64Image = '';
   late String _profileName;
   late String _profileUsername;
   late String _profileBio;
   late String _profileEmail;
+  late String _profilePhoto;
 
   @override
   void initState() {
@@ -28,16 +37,56 @@ class _ProfileEditState extends State<ProfileEdit> {
     _profileUsername = widget.data['profileUsername'];
     _profileBio = widget.data['profileBio'];
     _profileEmail = widget.data['profileEmail'];
+    _profilePhoto = widget.data['profilePhoto'];
 
     super.initState();
+  }
+
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) return;
+
+      final imageTemporary = File(image.path);
+      setState(() {
+        _image = imageTemporary;
+      });
+    } on PlatformException catch (e) {
+      print('Failed to pick image: $e');
+    }
+  }
+
+  uploadFromPage(userid) {
+    http
+        .post(
+      Uri.parse(httpService.serverAPI + 'updateProfilePhoto'),
+      headers: {"Content-Type": "application/json"},
+      body: json.encode({"image": base64Image, "userid": userid}),
+    )
+        .then((value) {
+      var mainResponse = json.decode(value.body);
+
+      if (value.statusCode == 200) {
+        if (mainResponse['status'] == 'ok') {
+          sessionMgt.updateSession(
+              'profilePhoto', mainResponse['body']['imagePathOnDB']);
+
+          _showToast(context, 'Changes Saved');
+        } else {
+          _showToast(context, mainResponse['message']);
+        }
+      } else {
+        print('error');
+        _showToast(context, mainResponse['message']);
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        foregroundColor: Colors.black,
-        backgroundColor: Colors.white, // 1
+        backgroundColor: Color(0xff840233), // 1 1
         elevation: 0,
         // leading: IconButton(
         //   icon: const Icon(Icons.arrow_back_ios),
@@ -50,7 +99,12 @@ class _ProfileEditState extends State<ProfileEdit> {
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: OutlinedButton(
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                // padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                // textStyle: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+              ),
               onPressed: () {
                 // openConfirmationDialog(context);
                 if (!_formKey.currentState!.validate()) {
@@ -102,7 +156,19 @@ class _ProfileEditState extends State<ProfileEdit> {
                                 'profileServes': value['body']['profileServes'],
                                 'profilePoints': value['body']['profilePoints'],
                               }),
-                              _showToast(context, 'Changes Saved'),
+
+                              // RECIEVING VALUES FROM SERVER RESPONSE TO USE FOR IMAGE UPLOAD: checking if image was changed
+                              // RECIEVING VALUES FROM SERVER RESPONSE TO USE FOR IMAGE UPLOAD: checking if image was changed
+                              if (_image != null)
+                                {
+                                  base64Image =
+                                      base64Encode(_image!.readAsBytesSync()),
+                                  uploadFromPage(value['body']['id']),
+                                }
+                              else
+                                {
+                                  _showToast(context, 'Changes Saved'),
+                                }
                             }
                           else
                             {
@@ -113,9 +179,10 @@ class _ProfileEditState extends State<ProfileEdit> {
               child: Text(
                 'Save',
                 style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xffC50303)),
+                  fontSize: 17,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
+                ),
               ),
             ),
           ),
@@ -125,7 +192,7 @@ class _ProfileEditState extends State<ProfileEdit> {
         child: Container(
           height: 600,
           width: double.maxFinite - 100,
-          margin: const EdgeInsets.only(left: 40, right: 40),
+          margin: const EdgeInsets.only(left: 20, right: 20, top: 20),
           child: Column(
             children: [
               Container(
@@ -137,23 +204,60 @@ class _ProfileEditState extends State<ProfileEdit> {
 
                 child: Stack(
                   children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(120),
-                      child: Image.asset(
-                        'assets/default_dp.png',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                    _image == null
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(120),
+                            child: _profilePhoto == ''
+                                ? Image.asset(
+                                    'assets/default_dp.png',
+                                    fit: BoxFit.cover,
+                                    height: 120.0,
+                                    width: 120.0,
+                                  )
+                                : Image.network(
+                                    httpService.serverAPI + _profilePhoto,
+                                    fit: BoxFit.cover,
+                                    height: 120.0,
+                                    width: 120.0,
+                                  ),
+                          )
+                        : ClipRRect(
+                            borderRadius: BorderRadius.circular(120),
+                            child: Image.file(
+                              _image!,
+                              fit: BoxFit.cover,
+                              height: 120.0,
+                              width: 120.0,
+                            ),
+                          ),
                     Positioned(
                       bottom: 0.0,
                       right: 5.0,
-                      child: Container(
-                        height: 30,
-                        width: 30,
-                        child: Icon(Icons.camera_alt,
-                            color: Colors.white, size: 15),
-                        decoration: BoxDecoration(
-                            color: Colors.green, shape: BoxShape.circle),
+                      child: InkWell(
+                        onTap: () {
+                          pickImage();
+                        },
+                        child: Container(
+                          height: 40,
+                          width: 40,
+                          child: Icon(
+                            Icons.camera_alt,
+                            color: Colors.white,
+                            size: 18,
+                          ),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: <Color>[
+                                Color(0xff0ED50C),
+                                Color(0xff078307)
+                              ],
+                            ),
+                            border: Border.all(width: 1, color: Colors.grey),
+                            shape: BoxShape.circle,
+                          ),
+                        ),
                       ),
                     )
                   ],
