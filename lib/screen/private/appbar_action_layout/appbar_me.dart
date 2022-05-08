@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:camonta/screen/private/notification/notification.dart';
 import 'package:camonta/screen/private/profile/profile.dart';
+import 'package:camonta/services/http_service.dart';
+import 'package:camonta/services/session_management.dart';
 import 'package:flutter/material.dart';
 
 class AppbarMe extends StatefulWidget {
@@ -8,6 +12,52 @@ class AppbarMe extends StatefulWidget {
 }
 
 class _AppbarMeState extends State<AppbarMe> {
+  final SessionManagement sessionMgt = SessionManagement();
+  final HttpService httpService = HttpService();
+
+  Map _userData = {
+    'id': 0,
+    'profileType': '',
+    'profileSession': '',
+    'profileName': '',
+    'profileUsername': '',
+    'profilePhoto': '',
+    'profileBio': '',
+    'profileEmail': '',
+    'profileEmailStatus': '',
+    'password': '',
+    'profileCountry': '',
+    'profileState': '',
+    'registrationDate': '',
+    'notification': '',
+    'myProductCount': '',
+    'myPurchase': '',
+    'profileLikeForIdList': [],
+    'profileLikeByIdList': [],
+    'profileServes': '',
+    'profilePoints': '',
+  };
+  @override
+  void initState() {
+    // use session management class to set session
+    // use session management class to set session
+    callSession();
+    super.initState();
+  }
+
+  callSession() {
+    // use session management class to set session
+    // use session management class to set session
+    sessionMgt.getSession().then(
+          (value) => {
+            setState(() {
+              // decode
+              _userData = json.decode(value);
+            }),
+          },
+        );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -49,10 +99,15 @@ class _AppbarMeState extends State<AppbarMe> {
 
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(120),
-                  child: Image.asset(
-                    'assets/default_dp.png',
-                    fit: BoxFit.cover,
-                  ),
+                  child: _userData['profilePhoto'] == ''
+                      ? Image.asset(
+                          'assets/default_dp.png',
+                          fit: BoxFit.cover,
+                        )
+                      : Image.network(
+                          httpService.serverAPI + _userData['profilePhoto'],
+                          fit: BoxFit.cover,
+                        ),
                 ),
               ),
               SizedBox(width: 5),

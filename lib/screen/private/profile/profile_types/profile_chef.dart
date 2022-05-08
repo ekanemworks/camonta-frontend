@@ -75,24 +75,6 @@ class _ProfileChefState extends State<ProfileChef> {
         );
   }
 
-  List _baybn_members_general = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
