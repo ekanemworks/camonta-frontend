@@ -86,24 +86,6 @@ class _HomeFeedsState extends State<HomeFeeds> {
         );
   }
 
-  List _baybn_members_general = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-    '',
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -143,98 +125,14 @@ class _HomeFeedsState extends State<HomeFeeds> {
                   }).toList(),
                 ),
               ),
-              // NAVIGATION CARD
-              // NAVIGATION CARD
-              // NAVIGATION CARD
-              Card(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Container(
-                  // width: MediaQuery.of(context).size.width - 190,
-                  width: double.maxFinite,
-                  padding: EdgeInsets.all(10),
-                  child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _itemGridView = true;
-                            });
-                          },
-                          child: _itemGridView == true
-                              ? Icon(
-                                  Icons.grid_view_rounded,
-                                  color: Color(0xffB80146),
-                                )
-                              : Icon(
-                                  Icons.grid_view_rounded,
-                                  color: Color(0xff999999),
-                                ),
-                        ),
-                      ),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              _itemGridView = false;
-                            });
-                          },
-                          child: _itemGridView == false
-                              ? Icon(
-                                  Icons.view_list_rounded,
-                                  color: Color(0xffB80146),
-                                  size: 28,
-                                )
-                              : Icon(
-                                  Icons.view_list_rounded,
-                                  color: Color(0xff999999),
-                                  size: 28,
-                                ),
-                        ),
-                      ),
-                      Expanded(
-                        flex: 2,
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ProfilePromotions(),
-                              ),
-                            );
-                          },
-                          child: Column(
-                            children: [
-                              Container(
-                                padding: EdgeInsets.all(3.0),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      'Campaigns',
-                                      style: TextStyle(
-                                          fontSize: 18,
-                                          color: Colors.grey,
-                                          fontWeight: FontWeight.bold),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Icon(Icons.arrow_forward_ios,
-                                        size: 18, color: Colors.grey),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+              Container(
+                alignment: Alignment.centerLeft,
+                margin: EdgeInsets.only(left: 10, top: 20),
+                child: Text(
+                  'For You',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
-
               Recommendation(
                   getmyProductRequirementMap: _getmyProductRequirementMap)
             ],
