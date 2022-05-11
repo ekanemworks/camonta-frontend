@@ -360,6 +360,9 @@ class _SetupAccountState extends State<SetupAccount> {
                                                   ['profileServes'],
                                               'profilePoints': value['body']
                                                   ['profilePoints'],
+                                              'profileVerificationStatus': value[
+                                                      'body']
+                                                  ['profileVerificationStatus'],
                                             }),
 
                                             // RECIEVING VALUES FROM SERVER RESPONSE TO USE FOR IMAGE UPLOAD

@@ -28,7 +28,6 @@ class _SignUpState extends State<SignUp> {
     'Ghana',
     'Kenya',
     'South Africa',
-    'Ethiopia',
   ]; // List of items to show in dropdownlist
 
   @override

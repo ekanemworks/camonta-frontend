@@ -41,6 +41,7 @@ class _ProfileChefItemGridViewState extends State<ProfileChefItemGridView> {
             // print(value);
             if (value['status'] == 'ok') {
               _myProducts = value['body'];
+              print(_myProducts);
               // print('object');
             }
           })

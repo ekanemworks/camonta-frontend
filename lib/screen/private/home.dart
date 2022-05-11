@@ -21,6 +21,7 @@ class _HomeState extends State<Home> {
   final HttpService httpService = HttpService();
   String _matayas = '';
   Map _userData = {};
+  Map _myWallet = {};
   // Map _userData = {
   //   'id': 0,
   //   'profileType': '',
@@ -44,11 +45,11 @@ class _HomeState extends State<Home> {
   void initState() {
     // use session management class to set session
     // use session management class to set session
-    callSession();
+    _callSession();
     super.initState();
   }
 
-  callSession() {
+  _callSession() {
     // use session management class to set session
     // use session management class to set session
     sessionMgt.getSession().then(
@@ -56,10 +57,25 @@ class _HomeState extends State<Home> {
             setState(() {
               // decode
               _userData = json.decode(value);
-              print(_userData);
+              _callWallet(_userData);
+              // print(_userData);
             }),
           },
         );
+  }
+
+  _callWallet(userData) {
+    httpService.getMyWalletAPIfunction(userData).then((value) async => {
+          setState(() {
+            // print(value);
+            if (value['status'] == 'ok') {
+              _myWallet = value['body'];
+              // print('object');
+            } else {
+              _myWallet = {'message': 'Something is wrong'};
+            }
+          })
+        });
   }
 
   final naviagtionItems = <Widget>[
@@ -81,13 +97,7 @@ class _HomeState extends State<Home> {
     ),
   ];
 
-  List screens = [
-    HomeFeeds(),
-    Explore(),
-    Cart(),
-    AppNotification(),
-    Wallet(),
-  ];
+  List screens = [];
 
   int navigationIndex = 0;
 
@@ -127,7 +137,13 @@ class _HomeState extends State<Home> {
         ),
         body: IndexedStack(
           index: navigationIndex,
-          children: <Widget>[...screens],
+          children: <Widget>[
+            HomeFeeds(userdata: _userData),
+            Explore(userdata: _userData),
+            Cart(userdata: _userData),
+            AppNotification(userdata: _userData),
+            Wallet(userdata: _userData, walletdata: _myWallet),
+          ],
         ),
         bottomNavigationBar: CurvedNavigationBar(
           // color: Color(0xff454545),

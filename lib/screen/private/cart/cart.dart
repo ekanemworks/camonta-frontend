@@ -5,6 +5,8 @@ import 'package:camonta/services/session_management.dart';
 import 'package:flutter/material.dart';
 
 class Cart extends StatefulWidget {
+  Map userdata;
+  Cart({Key? key, required this.userdata}) : super(key: key);
   @override
   _CartState createState() => _CartState();
 }

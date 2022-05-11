@@ -81,7 +81,7 @@ class _NewProductInfoState extends State<NewProductInfo> {
   };
 
   late String _caption;
-  late int _time;
+  late String _time;
   late int _price;
   late String _productCurrency;
   String _currencySymbol = '';
@@ -102,6 +102,7 @@ class _NewProductInfoState extends State<NewProductInfo> {
   @override
   void initState() {
     callSession();
+    print('_productRegionList');
     print(_productRegionList);
     super.initState();
   }
@@ -114,6 +115,7 @@ class _NewProductInfoState extends State<NewProductInfo> {
             setState(() {
               // decode
               _userData = json.decode(value);
+              print('profileCountry');
               print(_userData['profileCountry']);
 
               var territoryMap = {
@@ -127,16 +129,13 @@ class _NewProductInfoState extends State<NewProductInfo> {
                 _currencySymbol = 'NGN ';
               } else if (_userData['profileCountry'] == 'Ghana') {
                 _productCurrency = 'Cedi';
-                _currencySymbol = 'GHC ';
+                _currencySymbol = 'GH₵ ';
               } else if (_userData['profileCountry'] == 'Kenya') {
                 _productCurrency = 'shilling';
                 _currencySymbol = 'KSh ';
               } else if (_userData['profileCountry'] == 'South Africa') {
                 _productCurrency = 'Naira';
                 _currencySymbol = 'ZAR ';
-              } else if (_userData['profileCountry'] == 'Ethiopia') {
-                _productCurrency = 'Naira';
-                _currencySymbol = 'ETB ';
               }
               // print(_userData);
             }),
@@ -145,10 +144,10 @@ class _NewProductInfoState extends State<NewProductInfo> {
   }
 
   getTerritories(territoryMap) {
-    // print('called 1');
+    print('called 1');
     httpService.getTerritoriesAPIfunction(territoryMap).then((value) async => {
           setState(() {
-            // print('called 2');
+            print('called 2');
             if (value['status'] == 'ok') {
               _productStateList = json.decode(value['body']['stateList']);
               _productRegionList = json.decode(value['body']['regionList']);
@@ -346,7 +345,7 @@ class _NewProductInfoState extends State<NewProductInfo> {
                               suffixText: 'Mins'),
 
                           onSaved: (value) {
-                            _time = int.parse(value!);
+                            _time = value!;
                           },
                         ),
                       ),

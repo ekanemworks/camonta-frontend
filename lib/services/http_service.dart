@@ -173,4 +173,81 @@ class HttpService {
       return {'status': 'error', 'message': 'network error / server error'};
     }
   }
+
+  // GET MY WALLET
+  // GET MY WALLET
+  // GET MY WALLET
+  Future getMyWalletAPIfunction(data) async {
+    Response response;
+    try {
+      response = await post(
+        Uri.parse(serverAPI + 'api1.0/wallet/getMyWallet'),
+        headers: {
+          "Content-Type": "application/json",
+          "uikey": uikey,
+          "session": data['profileSession']
+        },
+        body: json.encode(data),
+      );
+
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        return {'status': 'error', 'message': 'network / error 500'};
+      }
+    } catch (e) {
+      return {'status': 'error', 'message': 'network error / server error'};
+    }
+  }
+
+  // GET CHEFS
+  // GET CHEFS
+  // GET CHEFS
+  Future getChefsAPIfunction() async {
+    Response response;
+    try {
+      response = await post(
+        Uri.parse(serverAPI + 'api1.0/feeds/getChefs'),
+        headers: {
+          "Content-Type": "application/json",
+          "uikey": uikey,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        return {'status': 'error', 'message': 'network / error 500'};
+      }
+    } catch (e) {
+      return {'status': 'error', 'message': 'network error / server error'};
+    }
+  }
+
+  // GET RECOMMENDATION
+  // GET RECOMMENDATION
+  // GET RECOMMENDATION
+  Future getRecommendationsAPIfunction(page) async {
+    Response response;
+    try {
+      response = await post(
+        Uri.parse(serverAPI +
+            'api1.0/feeds/getRecommendations/' +
+            page['page'].toString()),
+        headers: {
+          "Content-Type": "application/json",
+          "uikey": uikey,
+        },
+        body: json.encode(page),
+      );
+
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        return {'status': 'error', 'message': 'network / error 500'};
+      }
+    } catch (e) {
+      return {'status': 'error', 'message': 'network error / server error'};
+    }
+  }
 }

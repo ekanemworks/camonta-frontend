@@ -207,6 +207,15 @@ class _SignInState extends State<SignIn> {
                                                           'profileEmailStatus'],
                                                       'password': value['body']
                                                           ['password'],
+                                                      'profileCountry': value[
+                                                              'body']
+                                                          ['profileCountry'],
+                                                      'profileState':
+                                                          value['body']
+                                                              ['profileState'],
+                                                      'profileRegion':
+                                                          value['body']
+                                                              ['profileRegion'],
                                                       'registrationDate': value[
                                                               'body']
                                                           ['registrationDate'],
@@ -233,6 +242,9 @@ class _SignInState extends State<SignIn> {
                                                       'profilePoints':
                                                           value['body']
                                                               ['profilePoints'],
+                                                      'profileVerificationStatus':
+                                                          value['body'][
+                                                              'profileVerificationStatus'],
                                                     }),
 
                                                     // FOR NORMAL ACCOUNT

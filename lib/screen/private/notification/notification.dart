@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class AppNotification extends StatefulWidget {
+  Map userdata;
+  AppNotification({Key? key, required this.userdata}) : super(key: key);
   @override
   _AppNotificationState createState() => _AppNotificationState();
 }

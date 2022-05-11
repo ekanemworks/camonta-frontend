@@ -127,6 +127,7 @@ class _ProfileEditState extends State<ProfileEdit> {
                             {
                               // use session management class to set session
                               // use session management class to set session
+                              // use session management class to set session
                               sessionMgt.setSession({
                                 'id': value['body']['id'],
                                 'profileType': value['body']['profileType'],
@@ -141,6 +142,10 @@ class _ProfileEditState extends State<ProfileEdit> {
                                 'profileEmailStatus': value['body']
                                     ['profileEmailStatus'],
                                 'password': value['body']['password'],
+                                'profileCountry': value['body']
+                                    ['profileCountry'],
+                                'profileState': value['body']['profileState'],
+                                'profileRegion': value['body']['profileRegion'],
                                 'registrationDate': value['body']
                                     ['registrationDate'],
                                 'notification':
@@ -155,6 +160,8 @@ class _ProfileEditState extends State<ProfileEdit> {
                                     value['body']['profileLikeByIdList']),
                                 'profileServes': value['body']['profileServes'],
                                 'profilePoints': value['body']['profilePoints'],
+                                'profileVerificationStatus': value['body']
+                                    ['profileVerificationStatus'],
                               }),
 
                               // RECIEVING VALUES FROM SERVER RESPONSE TO USE FOR IMAGE UPLOAD: checking if image was changed

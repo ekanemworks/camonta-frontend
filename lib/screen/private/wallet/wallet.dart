@@ -1,13 +1,70 @@
+import 'dart:convert';
+
 import 'package:camonta/screen/private/wallet/wallet_processes/fund_wallet.dart';
 import 'package:camonta/screen/private/wallet/wallet_processes/withdraw_amount.dart';
 import 'package:flutter/material.dart';
 
 class Wallet extends StatefulWidget {
+  Map userdata;
+  Map walletdata;
+  Wallet({Key? key, required this.userdata, required this.walletdata})
+      : super(key: key);
   @override
   _WalletState createState() => _WalletState();
 }
 
 class _WalletState extends State<Wallet> {
+  int _walletCash = 0;
+  int _walletBonus = 0;
+  String _walletCurrency = '';
+  List _walletTransactionHistory = [];
+  String _walletPassword = '';
+  int _walletBalance = 0;
+
+  @override
+  void initState() {
+    // needed for when toggling between views: else it wouldn't load
+    // needed for when toggling between views: else it wouldn't load
+    // setState(() {
+    //   _callProducts(widget.getmyProductRequirementMap);
+    // });
+    // print(widget.walletdata);
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant Wallet oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (widget.walletdata['id'] != null) {
+      _walletCash = widget.walletdata['walletCash'];
+      _walletBonus = widget.walletdata['walletBonus'];
+      _walletCurrency = widget.walletdata['walletCurrency'];
+      _walletTransactionHistory =
+          json.decode(widget.walletdata['walletTransactionHistory']);
+      _walletPassword = widget.walletdata['walletPassword'];
+      _walletBalance = _walletCash + _walletBonus;
+
+      if (_walletCurrency == 'NGN') {
+        // FOR nigeria Naira
+        _walletCurrency = '₦';
+      } else if (_walletCurrency == 'GH₵') {
+        // FOR Ghana Cedi
+        _walletCurrency = '¢';
+      } else if (_walletCurrency == 'KSh') {
+        // FOR Kenya Shilling
+        _walletCurrency = 'KSh';
+      } else if (_walletCurrency == 'ZAR') {
+        // FOR SouthAfrica Rand
+        _walletCurrency = 'R';
+      }
+    }
+
+    // setState(() {
+    //   _callProducts(widget.getmyProductRequirementMap);
+    // });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,8 +125,13 @@ class _WalletState extends State<Wallet> {
                                   style: TextStyle(color: Colors.white),
                                 ),
                                 SizedBox(height: 10),
-                                const Text(
-                                  '₦ 200,700',
+                                Text(
+                                  _walletCurrency +
+                                      ' ' +
+                                      _walletBalance.toString().replaceAllMapped(
+                                          RegExp(
+                                              r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                                          (Match m) => '${m[1]},'),
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
@@ -94,8 +156,13 @@ class _WalletState extends State<Wallet> {
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     SizedBox(height: 10),
-                                    const Text(
-                                      '₦ 200,700',
+                                    Text(
+                                      _walletCurrency +
+                                          ' ' +
+                                          _walletCash.toString().replaceAllMapped(
+                                              RegExp(
+                                                  r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                                              (Match m) => '${m[1]},'),
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,
@@ -111,8 +178,13 @@ class _WalletState extends State<Wallet> {
                                       style: TextStyle(color: Colors.white),
                                     ),
                                     SizedBox(height: 10),
-                                    const Text(
-                                      '₦ 700',
+                                    Text(
+                                      _walletCurrency +
+                                          ' ' +
+                                          _walletBonus.toString().replaceAllMapped(
+                                              RegExp(
+                                                  r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                                              (Match m) => '${m[1]},'),
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontWeight: FontWeight.bold,

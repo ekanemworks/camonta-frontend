@@ -5,6 +5,8 @@ import 'package:camonta/screen/private/explore/explore_tabs/explore_tab_popular.
 import 'package:flutter/material.dart';
 
 class Explore extends StatefulWidget {
+  Map userdata;
+  Explore({Key? key, required this.userdata}) : super(key: key);
   @override
   _ExploreState createState() => _ExploreState();
 }

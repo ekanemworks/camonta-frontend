@@ -26,6 +26,9 @@ class _NewProductPhotoState extends State<NewProductPhoto> {
   File? _image;
   List<File?> _productImages = [];
   List<String> _base64Images = [];
+  bool _displayUploadBtn = false;
+  bool _displayCameraBtn = true;
+  bool _startProcessing = false;
 
   @override
   void initState() {
@@ -35,23 +38,17 @@ class _NewProductPhotoState extends State<NewProductPhoto> {
   }
 
   _uploadNewItemInfo(itemdata) {
-    print('call 2');
-
     httpService.addProductAPIfunction(itemdata).then((value) async => {
-          print('call 3'),
           if (value['status'] == 'ok')
             {
-              print('Value inserted'),
               sessionMgt.updateSession(
                   'myProductCount', (itemdata['myProductCount'] + 1)),
               for (var i = 0; i < _productImages.length; i++)
                 {
-                  print(
-                      'Tobe Ekanem is the multi-billionaire founder of CAMONTA'),
                   _base64Images
                       .add(base64Encode(_productImages[i]!.readAsBytesSync()))
                 },
-              uploadFromPage(value['productCode'], itemdata['productOwnerId'],
+              _uploadFromPage(value['productCode'], itemdata['productOwnerId'],
                   itemdata['myProductCount'] + 1),
             }
           else
@@ -73,44 +70,48 @@ class _NewProductPhotoState extends State<NewProductPhoto> {
           style: TextStyle(fontSize: 23, fontWeight: FontWeight.bold),
         ),
         actions: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: OutlinedButton(
-              onPressed: () {
-                print('call 1');
-                // openConfirmationDialog(context);
-                var itemDataMap = {
-                  'productClass': 'regular',
-                  'productType': 'meal',
-                  'productCaption': _newItemInfo['productCaption'],
-                  'productItem': _newItemInfo['productItem'],
-                  'productCategory': _newItemInfo['productCategory'],
-                  'productPreparationtime':
-                      _newItemInfo['productPreparationtime'],
-                  'productPrice': _newItemInfo['productPrice'],
-                  'productCurrency': _newItemInfo['productCurrency'],
-                  'productPhotos': '',
-                  'productOwnerId': _newItemInfo['productOwnerId'],
-                  'productRating': 0,
-                  'productHits': 0,
-                  'productCountry': _newItemInfo['profileCountry'],
-                  'productState': _newItemInfo['profileState'],
-                  'productRegion': _newItemInfo['profileRegion'],
-                  'profileSession': _newItemInfo['profileSession'],
-                  'myProductCount': _newItemInfo['myProductCount']
-                };
-                print(itemDataMap);
-                _uploadNewItemInfo(itemDataMap);
-              },
-              child: Text(
-                'Upload',
-                style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xffC50303)),
-              ),
-            ),
-          ),
+          _displayUploadBtn == true
+              ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: OutlinedButton(
+                    style: OutlinedButton.styleFrom(
+                      shape: StadiumBorder(),
+                    ),
+                    onPressed: () {
+                      var itemDataMap = {
+                        'productClass': 'regular',
+                        'productType': 'meal',
+                        'productCaption': _newItemInfo['productCaption'],
+                        'productItem': _newItemInfo['productItem'],
+                        'productCategory': _newItemInfo['productCategory'],
+                        'productPreparationtime':
+                            _newItemInfo['productPreparationtime'],
+                        'productPrice': _newItemInfo['productPrice'],
+                        'productCurrency': _newItemInfo['productCurrency'],
+                        'productPhotos': '',
+                        'productOwnerId': _newItemInfo['productOwnerId'],
+                        'productRating': 0,
+                        'productHits': 0,
+                        'productCountry': _newItemInfo['profileCountry'],
+                        'productState': _newItemInfo['profileState'],
+                        'productRegion': _newItemInfo['profileRegion'],
+                        'profileSession': _newItemInfo['profileSession'],
+                        'myProductCount': _newItemInfo['myProductCount']
+                      };
+
+                      // _uploadNewItemInfo(itemDataMap);
+                      openConfirmationDialog(context, itemDataMap);
+                    },
+                    child: Text(
+                      'Upload',
+                      style: TextStyle(
+                          fontSize: 17,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xffC50303)),
+                    ),
+                  ),
+                )
+              : Container(),
         ],
       ),
       body: Container(
@@ -143,6 +144,24 @@ class _NewProductPhotoState extends State<NewProductPhoto> {
                             ),
                           ),
                   ),
+                  _displayUploadBtn == false
+                      ? Container(
+                          padding: EdgeInsets.all(9),
+                          decoration: BoxDecoration(
+                            color: Colors.black87,
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10),
+                            ),
+                          ),
+                          child: Text(
+                            'Add 2 or more images of Meal',
+                            style: TextStyle(
+                              color: Color(0xfff3f3f3),
+                            ),
+                          ),
+                        )
+                      : Container(),
                   Container(
                     height: MediaQuery.of(context).size.width,
                     padding: EdgeInsets.all(10),
@@ -168,7 +187,7 @@ class _NewProductPhotoState extends State<NewProductPhoto> {
                         );
                       }).toList(),
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
@@ -183,16 +202,18 @@ class _NewProductPhotoState extends State<NewProductPhoto> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     SizedBox(
-                      child: FloatingActionButton(
-                        backgroundColor: Color(0xffC9024D),
-                        onPressed: () {
-                          pickImage();
-                        },
-                        child: Icon(
-                          Icons.camera_alt,
-                          size: 35,
-                        ),
-                      ),
+                      child: _displayCameraBtn == true
+                          ? FloatingActionButton(
+                              backgroundColor: Color(0xffC9024D),
+                              onPressed: () {
+                                pickImage();
+                              },
+                              child: Icon(
+                                Icons.camera_alt,
+                                size: 35,
+                              ),
+                            )
+                          : Container(),
                     ),
                   ],
                 ),
@@ -206,7 +227,7 @@ class _NewProductPhotoState extends State<NewProductPhoto> {
 
   // START OF UPLOAD CONFIRMATION DIALOG
   // START OF UPLOAD CONFIRMATION DIALOG
-  openConfirmationDialog(BuildContext context) {
+  openConfirmationDialog(BuildContext context, itemdata) {
     return showDialog(
       context: context,
       builder: (context) {
@@ -221,55 +242,72 @@ class _NewProductPhotoState extends State<NewProductPhoto> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Container(
-                  padding: EdgeInsets.only(bottom: 20),
-                  alignment: Alignment.center,
-                  // color: Colors.grey,
-                  child: Text(
-                    'Are you sure you want to upload this item? ',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 17,
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 50,
-                  width: 150,
-                  decoration: BoxDecoration(
-                    color: Color(0xffC50303),
-                    borderRadius: BorderRadius.circular(23.0),
-                    border: Border.all(
-                      color: Color(0xffC50303),
-                    ),
-                  ),
-                  child: SizedBox(
-                    width: double.maxFinite, // <-- Your width
-                    height: 50,
-                    child: ElevatedButton(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text(
-                            'Yes',
-                            style: TextStyle(
-                                fontSize: 16,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
+                _startProcessing == false
+                    ? Container(
+                        padding: EdgeInsets.only(bottom: 20),
+                        alignment: Alignment.center,
+                        // color: Colors.grey,
+                        child: Text(
+                          'Are you sure you want to upload this item? ',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17,
                           ),
-                        ],
+                        ),
+                      )
+                    : Container(
+                        padding: EdgeInsets.only(bottom: 20),
+                        alignment: Alignment.center,
+                        // color: Colors.grey,
+                        child: Text(
+                          'please wait, Uploading Item.... ',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 17,
+                          ),
+                        ),
                       ),
-                      onPressed: () {
-                        Navigator.pop(context); // Close
-                        openUploadSuccessDialog(context);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.transparent,
-                        shadowColor: Colors.transparent,
-                      ),
-                    ),
-                  ),
-                ),
+                _startProcessing == false
+                    ? Container(
+                        height: 50,
+                        width: 150,
+                        decoration: BoxDecoration(
+                          color: Color(0xffC50303),
+                          borderRadius: BorderRadius.circular(23.0),
+                          border: Border.all(
+                            color: Color(0xffC50303),
+                          ),
+                        ),
+                        child: SizedBox(
+                          width: double.maxFinite, // <-- Your width
+                          height: 50,
+                          child: ElevatedButton(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Text(
+                                  'Yes',
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
+                            ),
+                            onPressed: () {
+                              _uploadNewItemInfo(itemdata);
+                              setState(() {
+                                _startProcessing = true;
+                              });
+                            },
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.transparent,
+                              shadowColor: Colors.transparent,
+                            ),
+                          ),
+                        ),
+                      )
+                    : Container(),
               ],
             ),
           ),
@@ -355,7 +393,14 @@ class _NewProductPhotoState extends State<NewProductPhoto> {
                         ],
                       ),
                       onPressed: () {
-                        // openConfirmationDialog(context);
+                        // FOR NORMAL ACCOUNT
+                        // FOR NORMAL ACCOUNT
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => Home(),
+                          ),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Colors.transparent,
@@ -399,6 +444,18 @@ class _NewProductPhotoState extends State<NewProductPhoto> {
         _imageJumbotron = imageTemporary;
         _productImages.add(_imageJumbotron);
       });
+
+      if (_productImages.length >= 2) {
+        setState(() {
+          _displayUploadBtn = true;
+        });
+      }
+
+      if (_productImages.length == 3) {
+        setState(() {
+          _displayCameraBtn = false;
+        });
+      }
     } on PlatformException catch (e) {
       print('Failed to pick image: $e');
     }
@@ -406,7 +463,7 @@ class _NewProductPhotoState extends State<NewProductPhoto> {
 
   // UPLOAD IMAGE FUNCTION: TO UPLOAD PRODUCT IMAGE calling http, sending packet of data
   // UPLOAD IMAGE FUNCTION: TO UPLOAD PRODUCT IMAGE calling http, sending packet of data
-  uploadFromPage(productCode, productOwnerid, myProductCount) {
+  _uploadFromPage(productCode, productOwnerid, myProductCount) {
     http
         .post(
       Uri.parse(httpService.serverAPI + 'uploadProductPhoto'),
@@ -423,14 +480,8 @@ class _NewProductPhotoState extends State<NewProductPhoto> {
 
       if (value.statusCode == 200) {
         if (mainResponse['status'] == 'ok') {
-          // FOR NORMAL ACCOUNT
-          // FOR NORMAL ACCOUNT
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => Home(),
-            ),
-          );
+          Navigator.pop(context); // Close
+          openUploadSuccessDialog(context);
         } else {
           _showToast(context, mainResponse['message']);
         }
