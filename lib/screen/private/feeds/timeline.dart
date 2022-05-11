@@ -84,20 +84,7 @@ class _HomeFeedsState extends State<HomeFeeds> {
     _callChef();
     _getRecommendations1();
     _scrollController = ScrollController();
-    // _scrollController.addListener(() {
-    //   if (_scrollController.position.pixels >=
-    //           _scrollController.position.maxScrollExtent * 0.98 &&
-    //       !isLoading) {
-    //     print('in scrollController');
-    //     print(_scrollController.position.maxScrollExtent);
-    //     print('_scrollController.position.pixels');
-    //     print(_scrollController.position.pixels);
-    //     // if (_myProducts.length < _productCount) {
-    //     //   _getRecommendations2();
-    //     // }
-    //   }
-    // });
-    // _callRecommendations();
+
     super.initState();
   }
 
@@ -207,8 +194,8 @@ class _HomeFeedsState extends State<HomeFeeds> {
 
 //  To create interval for when screen is scrolled to bottom before update is called again
   void startTimer() {
-    const oneSec = const Duration(seconds: 1);
-    _loadTimer = new Timer.periodic(
+    const oneSec = Duration(seconds: 1);
+    _loadTimer = Timer.periodic(
       oneSec,
       (Timer timer) {
         if (_timerStart == 0) {
@@ -220,7 +207,7 @@ class _HomeFeedsState extends State<HomeFeeds> {
         } else {
           _timerStart--;
         }
-        print(_timerStart);
+        // print(_timerStart);
       },
     );
   }
@@ -237,8 +224,6 @@ class _HomeFeedsState extends State<HomeFeeds> {
   int _page = 1;
   bool isLoading = false;
   bool isUpdateCall = false;
-  bool isLoadedMore = false;
-  bool hasMore = true;
   int _newStart = 1;
   int _gridLengthMultiplier = 1;
 
@@ -259,9 +244,6 @@ class _HomeFeedsState extends State<HomeFeeds> {
         child: SingleChildScrollView(
           child: Container(
             color: Color(0xfff2f2f2),
-            // margin: EdgeInsets.only(bottom: 500),
-
-            // height: MediaQuery.of(context).size.height,
             padding: EdgeInsets.only(left: 10, right: 10, top: 10),
             child: Column(
               children: [
@@ -306,8 +288,6 @@ class _HomeFeedsState extends State<HomeFeeds> {
                           width: MediaQuery.of(context).size.width - 10,
                           height: (MediaQuery.of(context).size.height + 80) *
                               _gridLengthMultiplier,
-                          // padding: EdgeInsets.only(bottom: 200),
-                          // height: 1500,
                           child: GridView.builder(
                             itemCount: _myProducts.length,
                             controller: _scrollController,
@@ -335,23 +315,28 @@ class _HomeFeedsState extends State<HomeFeeds> {
                           child: Center(
                             child: Container(
                               // color: Colors.white,
-                              height: 140,
+                              height: 200,
                               child: Column(
                                 children: [
                                   SizedBox(
-                                    height: 90,
-                                    width: 90,
+                                    height: 100,
+                                    width: 100,
                                     child: Icon(
                                       Icons.restaurant,
                                       size: 50,
                                     ),
                                   ),
+                                  Container(
+                                    child: Text('loading meals'),
+                                  ),
                                   SizedBox(height: 10),
-                                  Text(
-                                    'No Are Available Now!',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 20,
+                                  SizedBox(
+                                    width: 30,
+                                    height: 30,
+                                    child: FittedBox(
+                                      child: CircularProgressIndicator(
+                                        color: Color(0xff555555),
+                                      ),
                                     ),
                                   )
                                 ],
@@ -366,17 +351,20 @@ class _HomeFeedsState extends State<HomeFeeds> {
                         height: 50,
                         child: FittedBox(
                           child: CircularProgressIndicator(
-                            color: Colors.grey,
+                            color: Color(0xff555555),
                           ),
                         ),
                       )
-                    : Container(
-                        padding: EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                            color: Color(0xffdddddd),
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Text(' no more item to load '),
-                      ),
+                    : _myProducts.isNotEmpty &&
+                            _myProducts.length == _productCount
+                        ? Container(
+                            padding: EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                                color: Color(0xffdddddd),
+                                borderRadius: BorderRadius.circular(15)),
+                            child: Text(' no more item to load '),
+                          )
+                        : Container(),
                 Container(
                   height: 100,
                 )
