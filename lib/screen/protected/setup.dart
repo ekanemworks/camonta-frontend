@@ -55,7 +55,7 @@ class _SetupAccountState extends State<SetupAccount> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Home(),
+                    builder: (context) => Home(initialNavIndex: 0),
                   ),
                 )
               }
@@ -97,7 +97,7 @@ class _SetupAccountState extends State<SetupAccount> {
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => Home(),
+              builder: (context) => Home(initialNavIndex: 0),
             ),
           );
         } else {
@@ -376,13 +376,15 @@ class _SetupAccountState extends State<SetupAccount> {
                                               }
                                             else
                                               {
+                                                // if photo was not included
                                                 // FOR NORMAL ACCOUNT
                                                 // FOR NORMAL ACCOUNT
                                                 Navigator.push(
                                                   context,
                                                   MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        Home(),
+                                                    builder: (context) => Home(
+                                                      initialNavIndex: 0,
+                                                    ),
                                                   ),
                                                 )
                                               }

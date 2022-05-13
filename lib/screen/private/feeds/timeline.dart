@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:camonta/screen/private/feeds/recommendation.dart';
 import 'package:camonta/screen/private/layouts/layout_open_item/profile_me_open_item.dart';
+import 'package:camonta/screen/private/layouts/layout_ordering_process/product_open.dart';
 import 'package:camonta/screen/private/profile/add_product/newproduct_info.dart';
 import 'package:camonta/screen/private/profile/create_ad/promotion_type.dart';
 import 'package:camonta/screen/private/profile/profile_edit.dart';
@@ -77,15 +78,29 @@ class _HomeFeedsState extends State<HomeFeeds> {
 
   @override
   void initState() {
-    print('init guy');
     // use session management class to set session
     // use session management class to set session
-    callSession();
+    _callSession();
     _callChef();
-    _getRecommendations1();
     _scrollController = ScrollController();
 
     super.initState();
+  }
+
+  _callSession() {
+    // use session management class to set session
+    // use session management class to set session
+    sessionMgt.getSession().then(
+          (value) => {
+            setState(() {
+              // decode
+              _userData = json.decode(value);
+              print(_userData['profileCountry']);
+
+              _getRecommendations1(_userData['profileCountry']);
+            }),
+          },
+        );
   }
 
   _callChef() {
@@ -102,14 +117,15 @@ class _HomeFeedsState extends State<HomeFeeds> {
         });
   }
 
-  _getRecommendations1() {
+  _getRecommendations1(profileCountry) {
     print('1st _getRecommendations is called');
     setState(() {
       isLoading = true;
     });
     httpService.getRecommendationsAPIfunction({
       "page": _page,
-      "start": _newStart
+      "start": _newStart,
+      "profileCountry": profileCountry,
     }).then((value) async => {
           setState(() {
             if (value['status'] == 'ok') {
@@ -135,7 +151,8 @@ class _HomeFeedsState extends State<HomeFeeds> {
     httpService.getRecommendationsAPIfunction({
       "page": _page,
       "start": _newStart,
-      "productCount": _productCount
+      "productCount": _productCount,
+      "profileCountry": _userData['profileCountry'],
     }).then((value) async => {
           setState(() {
             _gridLengthMultiplier++;
@@ -148,28 +165,6 @@ class _HomeFeedsState extends State<HomeFeeds> {
             }
           })
         });
-  }
-
-  callSession() {
-    // use session management class to set session
-    // use session management class to set session
-    sessionMgt.getSession().then(
-          (value) => {
-            setState(() {
-              // decode
-              _userData = json.decode(value);
-              // print(_userData);
-
-              _getmyProductRequirementMap = {
-                'productOwnerid': _userData['id'],
-                'profileSession': _userData['profileSession']
-              };
-              // _productOwnerid = _userData['id'];
-
-              // print(_userData);
-            }),
-          },
-        );
   }
 
   _onStartScroll(ScrollMetrics metrics) {
@@ -362,7 +357,7 @@ class _HomeFeedsState extends State<HomeFeeds> {
                             decoration: BoxDecoration(
                                 color: Color(0xffdddddd),
                                 borderRadius: BorderRadius.circular(15)),
-                            child: Text(' no more item to load '),
+                            child: Text(' No more items from Nigerian Chefs '),
                           )
                         : Container(),
                 Container(
@@ -377,13 +372,28 @@ class _HomeFeedsState extends State<HomeFeeds> {
   }
 
   Widget listItem2(_value) {
+    String _walletCurrency = '';
+
+    if (_value['productCountry'] == 'Nigeria') {
+      // FOR nigeria Naira
+      _walletCurrency = '₦';
+    } else if (_value['productCountry'] == 'Ghana') {
+      // FOR Ghana Cedi
+      _walletCurrency = '¢';
+    } else if (_value['productCountry'] == 'Kenya') {
+      // FOR Kenya Shilling
+      _walletCurrency = 'KSh';
+    } else if (_value['productCountry'] == 'South Africa') {
+      // FOR SouthAfrica Rand
+      _walletCurrency = 'R';
+    }
     // print(_value);
     return InkWell(
       onTap: () {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ProfileMeOpenItem(),
+            builder: (context) => ProductOpen(productdetails: _value),
           ),
         );
       },
@@ -393,32 +403,87 @@ class _HomeFeedsState extends State<HomeFeeds> {
         ),
         child: Container(
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15), color: Colors.grey),
+            borderRadius: BorderRadius.circular(15),
+            image: _value['productPhotos'] == ''
+                ? DecorationImage(
+                    image: AssetImage("assets/product_default.png"),
+                    fit: BoxFit.cover,
+                  )
+                : DecorationImage(
+                    image: NetworkImage(httpService.serverAPI +
+                        json.decode(_value['productPhotos'])[0]),
+                    fit: BoxFit.cover,
+                  ),
+          ),
           child: Container(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
-              color: const Color.fromRGBO(0, 0, 0, 0.2),
+              color: const Color.fromRGBO(0, 0, 0, 0.4),
             ),
-            padding: EdgeInsets.all(8),
-            child: Align(
-              alignment: Alignment.bottomLeft,
-              child: ButtonBar(
-                alignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    // width: MediaQuery.of(context).size.width - 10,
-                    // color: Colors.green,
-                    child: Text(
-                      _value['id'].toString(),
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold),
-                      textAlign: TextAlign.center,
-                    ),
+            padding: EdgeInsets.all(6),
+            child: Stack(
+              children: [
+                Container(
+                  padding: EdgeInsets.only(top: 10),
+                  child: Text(
+                    '@' + _value['profileUsername'],
+                    style: TextStyle(color: Colors.white),
                   ),
-                ],
-              ),
+                ),
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: ButtonBar(
+                    alignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: double.maxFinite,
+                        padding: EdgeInsets.only(bottom: 10),
+                        child: Text(
+                          _value['productItem'],
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Container(
+                        // width: MediaQuery.of(context).size.width - 10,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              _walletCurrency +
+                                  ' ' +
+                                  _value['productPrice']
+                                      .toString()
+                                      .replaceAllMapped(
+                                          RegExp(
+                                              r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+                                          (Match m) => '${m[1]},'),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Container(
+                              child: Row(
+                                children: [
+                                  Icon(Icons.star, color: Color(0xffF29D38)),
+                                  Text(
+                                    _value['productRating'].toString(),
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
           ),
         ),

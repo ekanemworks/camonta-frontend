@@ -1,15 +1,18 @@
-import 'package:camonta/screen/private/profile/edit_item.dart';
+import 'package:camonta/screen/private/home.dart';
 import 'package:camonta/screen/private/layouts/layout_open_item/item_details_layout.dart';
+import 'package:camonta/services/cart_management.dart';
 import 'package:flutter/material.dart';
 
-class ProfileMeOpenItem extends StatefulWidget {
+class ProductOpen extends StatefulWidget {
   Map productdetails;
-  ProfileMeOpenItem({Key? key, required this.productdetails}) : super(key: key);
+  ProductOpen({Key? key, required this.productdetails}) : super(key: key);
   @override
-  _ProfileMeOpenItemState createState() => _ProfileMeOpenItemState();
+  _ProductOpenState createState() => _ProductOpenState();
 }
 
-class _ProfileMeOpenItemState extends State<ProfileMeOpenItem> {
+class _ProductOpenState extends State<ProductOpen> {
+  final CartManagement cartMgt = CartManagement();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,44 +20,6 @@ class _ProfileMeOpenItemState extends State<ProfileMeOpenItem> {
         foregroundColor: Colors.black,
         backgroundColor: Colors.white, // 1
         elevation: 0,
-
-        actions: [
-          IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.favorite),
-          ),
-          Container(
-            width: 60,
-            height: 120,
-            margin: const EdgeInsets.only(top: 3, bottom: 3, right: 10),
-            // color: Colors.purple,
-            // child: Image.asset('assets/default.png'),
-
-            child: Stack(
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(120),
-                  child: Image.asset(
-                    'assets/default_dp.png',
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Positioned(
-                  bottom: 0.0,
-                  right: 5.0,
-                  child: Container(
-                    child:
-                        Icon(Icons.more_horiz, color: Colors.white, size: 25),
-                    decoration: BoxDecoration(
-                      color: Colors.black,
-                      shape: BoxShape.circle,
-                    ),
-                  ),
-                )
-              ],
-            ),
-          )
-        ],
       ),
       body: SingleChildScrollView(
         child: Container(
@@ -81,26 +46,44 @@ class _ProfileMeOpenItemState extends State<ProfileMeOpenItem> {
           height: 50,
           child: ElevatedButton(
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text(
-                  'Edit Item',
+                  'Add to Cart',
                   style: TextStyle(
-                      fontSize: 15,
+                      fontSize: 14,
                       color: Colors.white,
                       fontWeight: FontWeight.bold),
                 ),
                 SizedBox(width: 5),
-                Icon(Icons.create)
+                Icon(Icons.shopping_cart)
               ],
             ),
             onPressed: () {
+              // final navigationState = navigationKey.currentState;
+              // navigationState.setPage(0);
+
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => EditItem(),
+                  builder: (context) => Home(
+                    initialNavIndex: 2,
+                  ),
                 ),
               );
+              // cartMgt.getCart().then(
+              //       (value) => {
+              //         if (value != 'empty')
+              //           {
+              //             cartMgt.setCart(widget.productdetails),
+              //           }
+              //         else
+              //           {
+              //             cartMgt.addToCart(
+              //               widget.productdetails,
+              //             )
+              //           }
+              //       },
+              //     );
             },
             style: ElevatedButton.styleFrom(
               primary: Colors.transparent,

@@ -114,7 +114,7 @@ class _ProfileChefItemGridViewState extends State<ProfileChefItemGridView> {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ProfileMeOpenItem(),
+            builder: (context) => ProfileMeOpenItem(productdetails: _value),
           ),
         );
       },

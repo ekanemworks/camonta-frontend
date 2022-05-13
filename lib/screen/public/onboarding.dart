@@ -31,7 +31,9 @@ class _OnboardingState extends State<Onboarding> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Home(),
+                    builder: (context) => Home(
+                      initialNavIndex: 0,
+                    ),
                   ),
                 )
               }

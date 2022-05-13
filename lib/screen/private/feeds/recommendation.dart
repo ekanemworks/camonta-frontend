@@ -207,14 +207,7 @@ class _RecommendationState extends State<Recommendation> {
     print('_value');
     print(_value);
     return InkWell(
-      onTap: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => ProfileMeOpenItem(),
-          ),
-        );
-      },
+      onTap: () {},
       child: Card(
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),

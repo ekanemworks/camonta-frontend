@@ -12,16 +12,21 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
+  int initialNavIndex;
+  Home({Key? key, required this.initialNavIndex}) : super(key: key);
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
+  final navigationKey = GlobalKey<CurvedNavigationBarState>();
   final SessionManagement sessionMgt = SessionManagement();
   final HttpService httpService = HttpService();
   String _matayas = '';
   Map _userData = {};
   Map _myWallet = {};
+  List screens = [];
+  int navigationIndex = 0;
   // Map _userData = {
   //   'id': 0,
   //   'profileType': '',
@@ -46,6 +51,9 @@ class _HomeState extends State<Home> {
     // use session management class to set session
     // use session management class to set session
     _callSession();
+    if (widget.initialNavIndex != 0) {
+      navigationIndex = widget.initialNavIndex;
+    }
     super.initState();
   }
 
@@ -97,10 +105,6 @@ class _HomeState extends State<Home> {
     ),
   ];
 
-  List screens = [];
-
-  int navigationIndex = 0;
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -146,9 +150,8 @@ class _HomeState extends State<Home> {
           ],
         ),
         bottomNavigationBar: CurvedNavigationBar(
-          // color: Color(0xff454545),
+          key: navigationKey,
           color: Color(0xff222127),
-          // color: navigationIndex == 0 ? Colors.red : Colors.black,
           buttonBackgroundColor: Color(0xff71012C),
           backgroundColor: Colors.transparent,
           animationCurve: Curves.easeInOut,

@@ -398,7 +398,7 @@ class _NewProductPhotoState extends State<NewProductPhoto> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Home(),
+                            builder: (context) => Home(initialNavIndex: 0),
                           ),
                         );
                       },
